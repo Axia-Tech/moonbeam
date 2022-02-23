@@ -17,10 +17,10 @@ moonbeam-primitives-ext = { path = "../../primitives/ext", default-features = fa
 
 # Axlib
 codec = { git = "https://github.com/axia-tech/axia-scale-codec", branch = "v2.3.1", package = "axia-scale-codec", version = "2.3.1", default-features = false }
-sp-core = { git = "https://github.com/axia-tech/axlib", branch = "master", default-features = false }
-sp-io = { git = "https://github.com/axia-tech/axlib", branch = "master", default-features = false }
-sp-runtime = { git = "https://github.com/axia-tech/axlib", branch = "master", default-features = false }
-sp-std = { git = "https://github.com/axia-tech/axlib", branch = "master", default-features = false }
+sp-core = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
+sp-io = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
+sp-runtime = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
+sp-std = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
 
 # Frontier
 ethereum-types = { git = "https://github.com/axia-tech/axia-common", branch = "master", version = "0.12.0", default-features = false }

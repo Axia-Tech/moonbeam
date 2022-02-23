@@ -19,11 +19,11 @@ serde_json = { version = "1.0", optional = true }
 
 # Axlib
 codec = { git = "https://github.com/axia-tech/axia-scale-codec", branch = "v2.3.1", package = "axia-scale-codec", version = "2.3.1", default-features = false }
-sp-api = { git = "https://github.com/axia-tech/axlib", branch = "master", default-features = false }
-sp-core = { git = "https://github.com/axia-tech/axlib", branch = "master", default-features = false }
-sp-io = { git = "https://github.com/axia-tech/axlib", branch = "master", default-features = false }
-sp-runtime = { git = "https://github.com/axia-tech/axlib", branch = "master", default-features = false }
-sp-std = { git = "https://github.com/axia-tech/axlib", branch = "master", default-features = false }
+sp-api = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
+sp-core = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
+sp-io = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
+sp-runtime = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
+sp-std = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
 
 [features]
 default = ["std"]

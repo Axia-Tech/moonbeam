@@ -10,7 +10,7 @@ version = "0.8.4"
 
 [dependencies]
 log = "0.4"
-rlp = { version = "0.5", optional = true, default-features = false }
+rlp = { git = "https://github.com/axia-tech/axia-common", branch = "master", version = "0.5", optional = true, default-features = false }
 serde = { version = "1.0.101", optional = true, default-features = false, features = [
 	"derive",
 ] }
@@ -109,7 +109,7 @@ frame-try-runtime = { git = "https://github.com/axia-tech/axlib", branch = "dev"
 
 [dev-dependencies]
 hex = "0.4"
-rlp = "0.5"
+rlp = { git = "https://github.com/axia-tech/axia-common", branch = "master", version = "0.5" }
 sha3 = "0.9"
 
 cumulus-primitives-allychain-inherent = { git = "https://github.com/axia-tech/cumulus", branch = "master", default-features = false }
