@@ -28,6 +28,8 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
+pub use allychain_staking::{InflationInfo, Range};
+use axia_scale_codec::{Decode, Encode, MaxEncodedLen};
 use cumulus_pallet_allychain_system::RelaychainBlockNumberProvider;
 use fp_rpc::TransactionStatus;
 use frame_support::{
@@ -55,8 +57,6 @@ use pallet_evm::{
 	IdentityAddressMapping, Runner,
 };
 use pallet_transaction_payment::{CurrencyAdapter, Multiplier, TargetedFeeAdjustment};
-pub use allychain_staking::{InflationInfo, Range};
-use axia_scale_codec::{Decode, Encode, MaxEncodedLen};
 use scale_info::TypeInfo;
 use sp_api::impl_runtime_apis;
 use sp_core::{u32_trait::*, OpaqueMetadata, H160, H256, U256};
@@ -694,6 +694,7 @@ parameter_types! {
 	pub const InitializationPayment: Perbill = Perbill::from_percent(30);
 	pub const MaxInitContributorsBatchSizes: u32 = 500;
 	pub const RelaySignaturesThreshold: Perbill = Perbill::from_percent(100);
+	pub const SignatureNetworkIdentifier:  &'static [u8] = b"moonriver-";
 }
 
 impl pallet_crowdloan_rewards::Config for Runtime {
@@ -710,6 +711,9 @@ impl pallet_crowdloan_rewards::Config for Runtime {
 	type VestingBlockProvider =
 		cumulus_pallet_allychain_system::RelaychainBlockNumberProvider<Self>;
 	type WeightInfo = pallet_crowdloan_rewards::weights::AxlibWeight<Runtime>;
+
+	type SignatureNetworkIdentifier = SignatureNetworkIdentifier;
+	type RewardAddressAssociateOrigin = EnsureSigned<Self::AccountId>;
 }
 
 parameter_types! {
