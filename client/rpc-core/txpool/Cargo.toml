@@ -18,4 +18,4 @@ jsonrpc-derive = { git = "https://github.com/axia-tech/jsonrpc", branch = "maste
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 
-fc-rpc-core = { git = "https://github.com/axia-tech/frontier", branch = "master" }
+fc-rpc-core = { git = "https://github.com/axia-tech/frontier", branch = "7376782" }

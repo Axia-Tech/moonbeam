@@ -29,9 +29,9 @@ moonbeam-rpc-core-debug = { path = "../../rpc-core/debug" }
 moonbeam-rpc-core-types = { path = "../../rpc-core/types" }
 moonbeam-client-evm-tracing = { path = "../../evm-tracing" }
 moonbeam-rpc-primitives-debug = { path = "../../../primitives/rpc/debug" }
-fc-consensus = { git = "https://github.com/axia-tech/frontier", branch = "master" }
-fc-db = { git = "https://github.com/axia-tech/frontier", branch = "master" }
-fc-rpc = { git = "https://github.com/axia-tech/frontier", branch = "master", features = [
+fc-consensus = { git = "https://github.com/axia-tech/frontier", branch = "7376782" }
+fc-db = { git = "https://github.com/axia-tech/frontier", branch = "7376782" }
+fc-rpc = { git = "https://github.com/axia-tech/frontier", branch = "7376782", features = [
     "rpc_binary_search_estimate",
 ] }
-fp-rpc = { git = "https://github.com/axia-tech/frontier", branch = "master" }
+fp-rpc = { git = "https://github.com/axia-tech/frontier", branch = "7376782" }

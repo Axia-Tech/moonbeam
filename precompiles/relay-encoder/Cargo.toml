@@ -9,8 +9,8 @@ description = "A Precompile to make relay staking calls encoding accessible to p
 sp-core = { git = "https://github.com/axia-tech/axlib", default-features = false, branch = "dev" }
 log = "0.4"
 rustc-hex = { version = "2.0.1", default-features = false }
-fp-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
-pallet-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
+fp-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
+pallet-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
 frame-support = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
 cumulus-primitives-core = { git = "https://github.com/axia-tech/cumulus", default-features = false, branch = "master" }
 

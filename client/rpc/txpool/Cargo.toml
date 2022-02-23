@@ -26,6 +26,6 @@ frame-system = { git = "https://github.com/axia-tech/axlib", branch = "dev" }
 serde = { version = "1.0", features = ["derive"] }
 
 moonbeam-rpc-primitives-txpool = { path = "../../../primitives/rpc/txpool" }
-fc-rpc = { git = "https://github.com/axia-tech/frontier", branch = "master", features = [
+fc-rpc = { git = "https://github.com/axia-tech/frontier", branch = "7376782", features = [
     "rpc_binary_search_estimate",
 ] }

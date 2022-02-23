@@ -9,8 +9,8 @@ repository = 'https://github.com/AxiaStake/moonbeam/'
 
 [dependencies]
 codec = { git = "https://github.com/axia-tech/axia-scale-codec", branch = "v2.3.1", package = "axia-scale-codec", version = "2.2", default-features = false }
-fp-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
-pallet-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
+fp-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
+pallet-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
 evm = { version = "0.30.1", default-features = false, features = [
 	"with-codec",
 ] }

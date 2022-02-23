@@ -1268,7 +1268,7 @@ name = "axia-overseer-gen-proc-macro"
 version = "0.9.12"
 source = "git+https://github.com/axia-tech/axia?branch=dev#b6d788a88fccc5c9b5dcc5bb0653fdb0bf88ae6d"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -1508,7 +1508,7 @@ name = "axia-scale-codec-derive"
 version = "2.3.1"
 source = "git+https://github.com/axia-tech/axia-scale-codec?branch=v2.3.1#bc2cdde93e738d57df30daac985160ca387030c2"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -3329,7 +3329,7 @@ name = "cumulus-pallet-allychain-system-proc-macro"
 version = "0.1.0"
 source = "git+https://github.com/axia-tech/cumulus?branch=master#614813d62ccf2293bdb88cff141c469f68b319e8"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -3976,7 +3976,7 @@ dependencies = [
 [[package]]
 name = "fc-consensus"
 version = "2.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "async-trait",
  "axia-scale-codec",
@@ -4002,7 +4002,7 @@ dependencies = [
 [[package]]
 name = "fc-db"
 version = "2.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "axia-scale-codec",
  "fp-storage",
@@ -4018,7 +4018,7 @@ dependencies = [
 [[package]]
 name = "fc-mapping-sync"
 version = "2.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "fc-consensus",
  "fc-db",
@@ -4036,7 +4036,7 @@ dependencies = [
 [[package]]
 name = "fc-rpc"
 version = "2.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "axia-scale-codec",
  "ethereum",
@@ -4081,7 +4081,7 @@ dependencies = [
 [[package]]
 name = "fc-rpc-core"
 version = "1.1.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "ethereum-types",
  "jsonrpc-core",
@@ -4184,7 +4184,7 @@ dependencies = [
 [[package]]
 name = "fp-consensus"
 version = "2.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "axia-scale-codec",
  "ethereum",
@@ -4198,7 +4198,7 @@ dependencies = [
 [[package]]
 name = "fp-evm"
 version = "3.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "axia-scale-codec",
  "evm",
@@ -4211,7 +4211,7 @@ dependencies = [
 [[package]]
 name = "fp-rpc"
 version = "3.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "axia-scale-codec",
  "ethereum",
@@ -4228,7 +4228,7 @@ dependencies = [
 [[package]]
 name = "fp-self-contained"
 version = "1.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "axia-scale-codec",
  "axia-util-mem 0.10.2 (git+https://github.com/axia-tech/axia-common?branch=master)",
@@ -4245,7 +4245,7 @@ dependencies = [
 [[package]]
 name = "fp-storage"
 version = "2.0.0"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 
 [[package]]
 name = "frame-benchmarking"
@@ -4379,7 +4379,7 @@ version = "4.0.0-dev"
 source = "git+https://github.com/axia-tech/axlib?branch=dev#e9dbbe4a3149926b095beb978596d4550d648ac9"
 dependencies = [
  "frame-support-procedural-tools-derive",
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -5396,7 +5396,7 @@ checksum = "8edb341d35279b59c79d7fe9e060a51aec29d45af99cc7c72ea7caa350fa71a4"
 dependencies = [
  "Inflector",
  "bae",
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -7250,7 +7250,7 @@ version = "0.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "424f6e86263cd5294cbd7f1e95746b95aca0e0d66bff31e5a40d6baa87b4aa99"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro-error",
  "proc-macro2",
  "quote",
@@ -7330,7 +7330,7 @@ dependencies = [
 [[package]]
 name = "nimbus-consensus"
 version = "0.1.0"
-source = "git+https://github.com/axia-tech/nimbus?branch=94e54bd#aa36235b3330ddcd4b929d81dcdbda4607a4bb81"
+source = "git+https://github.com/axia-tech/nimbus?branch=94e54bd#7a11df0ac80782c21fb0d9d4c9ec8211939bd5d0"
 dependencies = [
  "async-trait",
  "axia-client",
@@ -7361,7 +7361,7 @@ dependencies = [
 [[package]]
 name = "nimbus-primitives"
 version = "0.1.0"
-source = "git+https://github.com/axia-tech/nimbus?branch=94e54bd#aa36235b3330ddcd4b929d81dcdbda4607a4bb81"
+source = "git+https://github.com/axia-tech/nimbus?branch=94e54bd#7a11df0ac80782c21fb0d9d4c9ec8211939bd5d0"
 dependencies = [
  "async-trait",
  "axia-scale-codec",
@@ -7581,7 +7581,7 @@ version = "0.5.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0d992b768490d7fe0d8586d9b5745f6c49f557da6d81dc982b1d167ad4edbb21"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -7750,7 +7750,7 @@ dependencies = [
 [[package]]
 name = "pallet-author-inherent"
 version = "0.1.0"
-source = "git+https://github.com/axia-tech/nimbus?branch=94e54bd#aa36235b3330ddcd4b929d81dcdbda4607a4bb81"
+source = "git+https://github.com/axia-tech/nimbus?branch=94e54bd#7a11df0ac80782c21fb0d9d4c9ec8211939bd5d0"
 dependencies = [
  "axia-scale-codec",
  "frame-support",
@@ -7788,7 +7788,7 @@ dependencies = [
 [[package]]
 name = "pallet-author-slot-filter"
 version = "0.1.0"
-source = "git+https://github.com/axia-tech/nimbus?branch=94e54bd#aa36235b3330ddcd4b929d81dcdbda4607a4bb81"
+source = "git+https://github.com/axia-tech/nimbus?branch=94e54bd#7a11df0ac80782c21fb0d9d4c9ec8211939bd5d0"
 dependencies = [
  "axia-scale-codec",
  "frame-support",
@@ -8129,7 +8129,7 @@ dependencies = [
 [[package]]
 name = "pallet-ethereum"
 version = "4.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "axia-scale-codec",
  "ethereum",
@@ -8170,7 +8170,7 @@ dependencies = [
 [[package]]
 name = "pallet-evm"
 version = "6.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "axia-scale-codec",
  "evm",
@@ -8249,7 +8249,7 @@ dependencies = [
 [[package]]
 name = "pallet-evm-precompile-blake2"
 version = "2.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "fp-evm",
  "sp-core",
@@ -8259,7 +8259,7 @@ dependencies = [
 [[package]]
 name = "pallet-evm-precompile-bn128"
 version = "2.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "fp-evm",
  "sp-core",
@@ -8270,7 +8270,7 @@ dependencies = [
 [[package]]
 name = "pallet-evm-precompile-dispatch"
 version = "2.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "axia-scale-codec",
  "fp-evm",
@@ -8283,7 +8283,7 @@ dependencies = [
 [[package]]
 name = "pallet-evm-precompile-modexp"
 version = "2.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "fp-evm",
  "num",
@@ -8294,7 +8294,7 @@ dependencies = [
 [[package]]
 name = "pallet-evm-precompile-sha3fips"
 version = "2.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "fp-evm",
  "sp-core",
@@ -8305,7 +8305,7 @@ dependencies = [
 [[package]]
 name = "pallet-evm-precompile-simple"
 version = "2.0.0-dev"
-source = "git+https://github.com/axia-tech/frontier?branch=master#2d96f72f97228d23dc7a3c0fee8c86debd29cc97"
+source = "git+https://github.com/axia-tech/frontier?branch=7376782#0c9b8cd574407e62eafb5ff075b5ab1d5c0442fc"
 dependencies = [
  "fp-evm",
  "ripemd160",
@@ -8680,7 +8680,7 @@ name = "pallet-staking-reward-curve"
 version = "4.0.0-dev"
 source = "git+https://github.com/axia-tech/axlib?branch=dev#e9dbbe4a3149926b095beb978596d4550d648ac9"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -9307,9 +9307,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro-crate"
-version = "1.1.2"
+version = "1.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9dada8c9981fcf32929c3c0f0cd796a9284aca335565227ed88c83babb1d43dc"
+checksum = "e17d47ce914bf4de440332250b0edd23ce48c005f59fab39d3335866b114f11a"
 dependencies = [
  "thiserror",
  "toml",
@@ -10207,7 +10207,7 @@ name = "sc-chain-spec-derive"
 version = "4.0.0-dev"
 source = "git+https://github.com/axia-tech/axlib?branch=dev#e9dbbe4a3149926b095beb978596d4550d648ac9"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -11011,7 +11011,7 @@ name = "sc-tracing-proc-macro"
 version = "4.0.0-dev"
 source = "git+https://github.com/axia-tech/axlib?branch=dev#e9dbbe4a3149926b095beb978596d4550d648ac9"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -11087,7 +11087,7 @@ name = "scale-info-derive"
 version = "1.0.0"
 source = "git+https://github.com/axia-tech/scale-info?branch=v1.0.0#bee5fa611b8811178471878b34a58d4ba634282b"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -11579,7 +11579,7 @@ version = "4.0.0-dev"
 source = "git+https://github.com/axia-tech/axlib?branch=dev#e9dbbe4a3149926b095beb978596d4550d648ac9"
 dependencies = [
  "blake2-rfc",
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -11939,7 +11939,7 @@ name = "sp-npos-elections-solution-type"
 version = "4.0.0-dev"
 source = "git+https://github.com/axia-tech/axlib?branch=dev#e9dbbe4a3149926b095beb978596d4550d648ac9"
 dependencies = [
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",
@@ -12018,7 +12018,7 @@ version = "4.0.0-dev"
 source = "git+https://github.com/axia-tech/axlib?branch=dev#e9dbbe4a3149926b095beb978596d4550d648ac9"
 dependencies = [
  "Inflector",
- "proc-macro-crate 1.1.2",
+ "proc-macro-crate 1.1.3",
  "proc-macro2",
  "quote",
  "syn",

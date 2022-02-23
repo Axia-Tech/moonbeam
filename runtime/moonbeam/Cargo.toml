@@ -36,15 +36,15 @@ nimbus-primitives = { git = "https://github.com/axia-tech/nimbus", branch = "94e
 pallet-migrations = { path = "../../pallets/migrations", default-features = false }
 pallet-author-mapping = { path = "../../pallets/author-mapping", default-features = false }
 pallet-maintenance-mode = { path = "../../pallets/maintenance-mode", default-features = false }
-fp-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
+fp-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
 pallet-proxy-genesis-companion = { path = "../../pallets/proxy-genesis-companion", default-features = false }
 precompile-utils = { path = "../../precompiles/utils", default-features = false }
-pallet-evm-precompile-bn128 = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
-pallet-evm-precompile-dispatch = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
-pallet-evm-precompile-modexp = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
-pallet-evm-precompile-simple = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
-pallet-evm-precompile-sha3fips = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
-pallet-evm-precompile-blake2 = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
+pallet-evm-precompile-bn128 = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
+pallet-evm-precompile-dispatch = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
+pallet-evm-precompile-modexp = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
+pallet-evm-precompile-simple = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
+pallet-evm-precompile-sha3fips = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
+pallet-evm-precompile-blake2 = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
 
 # Axlib dependencies
 sp-std = { git = "https://github.com/axia-tech/axlib", default-features = false, branch = "dev" }
@@ -73,10 +73,10 @@ pallet-transaction-payment-rpc-runtime-api = { git = "https://github.com/axia-te
 pallet-utility = { git = "https://github.com/axia-tech/axlib", default-features = false, branch = "dev" }
 
 # Frontier dependencies
-fp-rpc = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
-fp-self-contained = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
-pallet-ethereum = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
-pallet-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
+fp-rpc = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
+fp-self-contained = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
+pallet-ethereum = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
+pallet-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
 
 pallet-democracy = { git = "https://github.com/axia-tech/axlib", default-features = false, branch = "dev" }
 pallet-scheduler = { git = "https://github.com/axia-tech/axlib", default-features = false, branch = "dev" }

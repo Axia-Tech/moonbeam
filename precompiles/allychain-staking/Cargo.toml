@@ -13,11 +13,11 @@ codec = { git = "https://github.com/axia-tech/axia-scale-codec", branch = "v2.3.
     "max-encoded-len",
 ] }
 frame-support = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
-fp-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
+fp-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
 sp-std = { git = "https://github.com/axia-tech/axlib", default-features = false, branch = "dev" }
 sp-core = { git = "https://github.com/axia-tech/axlib", default-features = false, branch = "dev" }
 sp-io = { git = "https://github.com/axia-tech/axlib", default-features = false, branch = "dev" }
-pallet-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
+pallet-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
 allychain-staking = { path = "../../pallets/allychain-staking", default-features = false }
 frame-system = { git = "https://github.com/axia-tech/axlib", default-features = false, branch = "dev" }
 precompile-utils = { path = "../utils", default-features = false }

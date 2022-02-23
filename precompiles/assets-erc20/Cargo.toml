@@ -22,8 +22,8 @@ frame-system = { git = "https://github.com/axia-tech/axlib", default-features = 
 pallet-assets = { git = "https://github.com/axia-tech/axlib", default-features = false, branch = "dev" }
 pallet-balances = { git = "https://github.com/axia-tech/axlib", default-features = false, branch = "dev" }
 
-pallet-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
-fp-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
+pallet-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
+fp-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
 precompile-utils = { path = "../utils", default-features = false }
 num_enum = { version = "0.5.3", default-features = false }
 

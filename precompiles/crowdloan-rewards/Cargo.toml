@@ -10,10 +10,10 @@ log = "0.4"
 rustc-hex = { version = "2.0.1", default-features = false }
 
 frame-support = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
-fp-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
+fp-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
 sp-std = { git = "https://github.com/axia-tech/axlib", default-features = false, branch = "dev" }
 sp-core = { git = "https://github.com/axia-tech/axlib", default-features = false, branch = "dev" }
-pallet-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "master" }
+pallet-evm = { git = "https://github.com/axia-tech/frontier", default-features = false, branch = "7376782" }
 pallet-crowdloan-rewards = { git = "https://github.com/axia-tech/crowdloan-rewards", default-features = false, branch = "master" }
 frame-system = { git = "https://github.com/axia-tech/axlib", default-features = false, branch = "dev" }
 precompile-utils = { path = "../utils", default-features = false }
