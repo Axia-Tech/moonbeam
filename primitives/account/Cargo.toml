@@ -24,10 +24,10 @@ serde = { version = "1.0.101", optional = true, default-features = false, featur
 sha3 = { version = "0.9", default-features = false }
 
 # Axlib
-parity-scale-codec = { version = "2.2", default-features = false, features = [
+axia-scale-codec = { git = "https://github.com/axia-tech/axia-scale-codec", branch = "v2.3.1", version = "2.3.1", default-features = false, features = [
 	"derive",
 ] }
-scale-info = { version = "1.0", default-features = false, features = [
+scale-info = { git = "https://github.com/axia-tech/scale-info", branch = "v1.0.0", version = "1.0.0", default-features = false, features = [
 	"derive",
 ] }
 sp-core = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
@@ -46,7 +46,7 @@ std = [
 	"hex/std",
 	"impl-serde/std",
 	"libsecp256k1/std",
-	"parity-scale-codec/std",
+	"axia-scale-codec/std",
 	"serde/std",
 	"sha3/std",
 	"sp-core/std",

@@ -21,7 +21,7 @@ use cli_opt::{EthApi, RpcConfig};
 use cumulus_client_service::genesis::generate_genesis_block;
 use cumulus_primitives_core::ParaId;
 use log::info;
-use parity_scale_codec::Encode;
+use axia_scale_codec::Encode;
 use axia_allychain::primitives::AccountIdConversion;
 #[cfg(feature = "alphanet-native")]
 use axia_service::ALPHANETChainSpec;

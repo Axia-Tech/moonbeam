@@ -43,7 +43,7 @@ use xtokens_precompiles::Action as XtokensAction;
 
 use pallet_transaction_payment::Multiplier;
 use allychain_staking::Bond;
-use parity_scale_codec::Encode;
+use axia_scale_codec::Encode;
 use sha3::{Digest, Keccak256};
 use sp_core::Pair;
 use sp_core::{Public, H160, U256};

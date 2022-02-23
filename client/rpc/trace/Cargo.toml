@@ -10,7 +10,7 @@ version = "0.6.0"
 [dependencies]
 # Utils
 ethereum = { version = "0.9.0", features = ["with-codec"] }
-ethereum-types = "0.12.0"
+ethereum-types = { git = "https://github.com/axia-tech/axia-common", branch = "master", version = "0.12.0" }
 serde = { version = "1.0", features = ["derive"] }
 sha3 = "0.9"
 
@@ -37,7 +37,7 @@ fc-rpc = { git = "https://github.com/axia-tech/frontier", branch = "master", fea
     "rpc_binary_search_estimate",
 ] }
 fc-rpc-core = { git = "https://github.com/axia-tech/frontier", branch = "master" }
-jsonrpc-core = "18.0.0"
+jsonrpc-core = { git = "https://github.com/axia-tech/jsonrpc", branch = "master", version = "18.0.0" }
 moonbeam-client-evm-tracing = { path = "../../evm-tracing" }
 moonbeam-rpc-core-trace = { path = "../../rpc-core/trace" }
 moonbeam-rpc-core-types = { path = "../../rpc-core/types" }

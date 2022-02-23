@@ -16,7 +16,7 @@ xcm-primitives = { path = "../../primitives/xcm", default-features = false }
 # Axlib
 frame-system = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
 pallet-staking = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
-parity-scale-codec = { version = "2.0.0", default-features = false, features = [
+axia-scale-codec = { git = "https://github.com/axia-tech/axia-scale-codec", branch = "v2.3.1", version = "2.3.1", default-features = false, features = [
 	"derive",
 ] }
 sp-runtime = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
@@ -41,8 +41,8 @@ std = [
 	"cumulus-primitives-core/std",
 	"frame-system/std",
 	"pallet-staking/std",
-	"parity-scale-codec/std",
-	"parity-scale-codec/std",
+	"axia-scale-codec/std",
+	"axia-scale-codec/std",
 	"relay-encoder-precompiles/std",
 	"sp-runtime/std",
 	"sp-std/std",

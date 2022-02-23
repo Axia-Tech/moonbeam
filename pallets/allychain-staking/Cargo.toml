@@ -13,15 +13,15 @@ serde = { version = "1.0.101", optional = true }
 frame-benchmarking = { git = "https://github.com/axia-tech/axlib", branch = "dev", optional = true, default-features = false }
 frame-support = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
 frame-system = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
-parity-scale-codec = { version = "2.2", default-features = false, features = [
+axia-scale-codec = { git = "https://github.com/axia-tech/axia-scale-codec", branch = "v2.3.1", version = "2.2", default-features = false, features = [
 	"derive",
 ] }
-scale-info = { version = "1.0", default-features = false, features = [
+scale-info = { git = "https://github.com/axia-tech/scale-info", branch = "v1.0.0", version = "1.0.0", default-features = false, features = [
 	"derive",
 ] }
 sp-runtime = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
 sp-std = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
-substrate-fixed = { git = "https://github.com/encointer/substrate-fixed", default-features = false }
+axlib-fixed = { git = "https://github.com/axia-tech/axlib-fixed", branch = "master", default-features = false }
 
 # Nimbus
 nimbus-primitives = { git = "https://github.com/axia-tech/nimbus", branch = "master", default-features = false }
@@ -40,7 +40,7 @@ std = [
 	"frame-support/std",
 	"frame-system/std",
 	"nimbus-primitives/std",
-	"parity-scale-codec/std",
+	"axia-scale-codec/std",
 	"scale-info/std",
 	"serde",
 	"sp-runtime/std",

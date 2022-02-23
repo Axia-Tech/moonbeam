@@ -47,7 +47,7 @@ pub mod pallet {
 	use crate::weights::WeightInfo;
 	use frame_support::{pallet_prelude::*, PalletId};
 	use frame_system::pallet_prelude::*;
-	use parity_scale_codec::HasCompact;
+	use axia_scale_codec::HasCompact;
 	use sp_runtime::traits::{AccountIdConversion, AtLeast32BitUnsigned};
 
 	#[pallet::pallet]

@@ -6,7 +6,7 @@ version = "0.15.1"
 
 [dependencies]
 log = "0.4.8"
-parity-scale-codec = "2.2"
+axia-scale-codec = { git = "https://github.com/axia-tech/axia-scale-codec", branch = "v2.3.1", version = "2.3.1" }
 structopt = "0.3.8"
 
 # Moonbeam

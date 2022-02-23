@@ -59,11 +59,11 @@ pallet-transaction-payment = { git = "https://github.com/axia-tech/axlib", branc
 pallet-transaction-payment-rpc-runtime-api = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
 pallet-treasury = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
 pallet-utility = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
-parity-scale-codec = { version = "2.2", default-features = false, features = [
+axia-scale-codec = { git = "https://github.com/axia-tech/axia-scale-codec", branch = "v2.3.1", version = "2.3.1", default-features = false, features = [
 	"derive",
 	"max-encoded-len",
 ] }
-scale-info = { version = "1.0", default-features = false, features = [
+scale-info = { git = "https://github.com/axia-tech/scale-info", branch = "v1.0.0", version = "1.0.0", default-features = false, features = [
 	"derive",
 ] }
 sp-api = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
@@ -164,7 +164,7 @@ std = [
 	"allychain-info/std",
 	"allychain-staking-precompiles/std",
 	"allychain-staking/std",
-	"parity-scale-codec/std",
+	"axia-scale-codec/std",
 	"precompile-utils/std",
 	"runtime-common/std",
 	"scale-info/std",

@@ -21,7 +21,7 @@ use frame_support::{
 	traits::{Everything, GenesisBuild},
 	weights::Weight,
 };
-use parity_scale_codec::{Decode, Encode};
+use axia_scale_codec::{Decode, Encode};
 use scale_info::TypeInfo;
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};

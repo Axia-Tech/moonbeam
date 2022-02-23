@@ -13,8 +13,8 @@ async-trait = "0.1.42"
 derive_more = "0.99"
 exit-future = "0.1.4"
 futures = { version = "0.3.1", features = ["compat"] }
-jsonrpc-core = "18.0.0"
-jsonrpc-pubsub = "18.0.0"
+jsonrpc-core = { git = "https://github.com/axia-tech/jsonrpc", branch = "master", version = "18.0.0" }
+jsonrpc-pubsub = { git = "https://github.com/axia-tech/jsonrpc", branch = "master", version = "18.0.0" }
 libsecp256k1 = { version = "0.6", features = ["hmac"] }
 log = "0.4"
 parking_lot = "0.9.0"
@@ -46,7 +46,7 @@ moonriver-runtime = { path = "../../runtime/moonriver", optional = true }
 frame-system-rpc-runtime-api = { git = "https://github.com/axia-tech/axlib", branch = "dev" }
 pallet-transaction-payment-rpc = { git = "https://github.com/axia-tech/axlib", branch = "dev" }
 pallet-transaction-payment-rpc-runtime-api = { git = "https://github.com/axia-tech/axlib", branch = "dev" }
-parity-scale-codec = "2.2"
+axia-scale-codec = { git = "https://github.com/axia-tech/axia-scale-codec", branch = "v2.3.1", version = "2.3.1" }
 sc-basic-authorship = { git = "https://github.com/axia-tech/axlib", branch = "dev" }
 sc-chain-spec = { git = "https://github.com/axia-tech/axlib", branch = "dev" }
 sc-cli = { git = "https://github.com/axia-tech/axlib", branch = "dev", features = [

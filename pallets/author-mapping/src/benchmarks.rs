@@ -24,7 +24,7 @@ use frame_support::{
 	traits::{Currency, Get},
 };
 use frame_system::RawOrigin;
-use parity_scale_codec::Decode;
+use axia_scale_codec::Decode;
 
 /// Create a funded user.
 fn create_funded_user<T: Config>() -> T::AccountId {

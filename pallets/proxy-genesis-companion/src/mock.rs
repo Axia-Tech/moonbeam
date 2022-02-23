@@ -22,7 +22,7 @@ use frame_support::{
 	traits::{Everything, GenesisBuild, InstanceFilter},
 	weights::Weight,
 };
-use parity_scale_codec::{Decode, Encode, MaxEncodedLen};
+use axia_scale_codec::{Decode, Encode, MaxEncodedLen};
 use sp_core::H256;
 use sp_runtime::{
 	testing::Header,

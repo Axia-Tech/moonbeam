@@ -68,7 +68,7 @@ pub mod pallet {
 	use frame_support::pallet_prelude::*;
 	use frame_support::traits::{Currency, Get, Imbalance, ReservableCurrency};
 	use frame_system::pallet_prelude::*;
-	use parity_scale_codec::{Decode, Encode};
+	use axia_scale_codec::{Decode, Encode};
 	use scale_info::TypeInfo;
 	use sp_runtime::{
 		traits::{AtLeast32BitUnsigned, Saturating, Zero},

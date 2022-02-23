@@ -1203,7 +1203,7 @@ fn test_automatic_versioning_on_runtime_upgrade_with_para_b() {
 	});
 }
 
-use parity_scale_codec::{Decode, Encode};
+use axia_scale_codec::{Decode, Encode};
 use sp_io::hashing::blake2_256;
 
 // Helper to derive accountIds

@@ -22,7 +22,7 @@ use frame_support::{construct_runtime, parameter_types};
 use pallet_evm::{
 	AddressMapping, EnsureAddressNever, EnsureAddressRoot, PrecompileSet, AxlibBlockHashMapping,
 };
-use parity_scale_codec::{Decode, Encode, MaxEncodedLen};
+use axia_scale_codec::{Decode, Encode, MaxEncodedLen};
 use serde::{Deserialize, Serialize};
 use sp_core::H160;
 use sp_core::H256;

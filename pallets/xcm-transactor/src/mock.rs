@@ -23,7 +23,7 @@ use frame_support::{
 	weights::Weight,
 };
 use frame_system::EnsureRoot;
-use parity_scale_codec::{Decode, Encode};
+use axia_scale_codec::{Decode, Encode};
 
 use sp_core::{H160, H256};
 use sp_io;

@@ -13,10 +13,10 @@ xcm-primitives = { path = "../../primitives/xcm/", default-features = false }
 # Axlib
 frame-support = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
 frame-system = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
-parity-scale-codec = { version = "2.0.0", default-features = false, features = [
+axia-scale-codec = { git = "https://github.com/axia-tech/axia-scale-codec", branch = "v2.3.1", version = "2.0.0", default-features = false, features = [
 	"derive",
 ] }
-scale-info = { version = "1.0", default-features = false, features = [
+scale-info = { git = "https://github.com/axia-tech/scale-info", branch = "v1.0.0", version = "1.0.0", default-features = false, features = [
 	"derive",
 ] }
 sp-io = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
@@ -37,7 +37,7 @@ xcm-executor = { git = "https://github.com/axia-tech/axia", branch = "dev", defa
 pallet-balances = { git = "https://github.com/axia-tech/axlib", branch = "dev" }
 pallet-timestamp = { git = "https://github.com/axia-tech/axlib", branch = "dev" }
 pallet-xcm = { git = "https://github.com/axia-tech/axia", branch = "dev" }
-parity-scale-codec = { version = "2.1.1" }
+axia-scale-codec = { git = "https://github.com/axia-tech/axia-scale-codec", branch = "v2.3.1", version = "2.3.1" }
 sp-core = { git = "https://github.com/axia-tech/axlib", branch = "dev" }
 
 [features]
@@ -46,7 +46,7 @@ std = [
 	"cumulus-primitives-core/std",
 	"frame-support/std",
 	"frame-system/std",
-	"parity-scale-codec/std",
+	"axia-scale-codec/std",
 	"axia-runtime-common/std",
 	"serde",
 	"sp-io/std",

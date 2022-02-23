@@ -12,13 +12,13 @@ environmental = { version = "1.1.2", default-features = false }
 ethereum = { version = "0.9.0", default-features = false, features = [
 	"with-codec",
 ] }
-ethereum-types = { version = "0.12.0", default-features = false }
+ethereum-types = { git = "https://github.com/axia-tech/axia-common", branch = "master", version = "0.12.0", default-features = false }
 hex = { version = "0.4", optional = true, features = ["serde"] }
 serde = { version = "1.0", optional = true, features = ["derive"] }
 serde_json = { version = "1.0", optional = true }
 
 # Axlib
-codec = { package = "parity-scale-codec", version = "2.2", default-features = false }
+codec = { git = "https://github.com/axia-tech/axia-scale-codec", branch = "v2.3.1", package = "axia-scale-codec", version = "2.3.1", default-features = false }
 sp-api = { git = "https://github.com/axia-tech/axlib", branch = "master", default-features = false }
 sp-core = { git = "https://github.com/axia-tech/axlib", branch = "master", default-features = false }
 sp-io = { git = "https://github.com/axia-tech/axlib", branch = "master", default-features = false }
