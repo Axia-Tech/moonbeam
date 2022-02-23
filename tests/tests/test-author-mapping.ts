@@ -25,7 +25,7 @@ async function getMappingInfo(
   const mapping = await context.axiaApi.query.authorMapping.mappingWithDeposit(authorId);
   if (mapping.isSome) {
     return {
-      account: mapping.unwrap().account.toString(),
+      account: mapping.unwrap().account.toHex(),
       deposit: mapping.unwrap().deposit.toBigInt(),
     };
   }
@@ -34,7 +34,7 @@ async function getMappingInfo(
 
 describeDevMoonbeam("Author Mapping - simple association", (context) => {
   it("should match genesis state", async function () {
-    expect((await getMappingInfo(context, aliceAuthorId)).account).to.eq(ALITH);
+    expect((await getMappingInfo(context, aliceAuthorId)).account).to.eq(ALITH.toLowerCase());
     expect((await getMappingInfo(context, aliceAuthorId)).deposit).to.eq(DEFAULT_GENESIS_MAPPING);
     expect(await getMappingInfo(context, bobAuthorId)).to.eq(null);
     expect((await context.axiaApi.query.system.account(ALITH)).data.free.toBigInt()).to.eq(
@@ -63,7 +63,7 @@ describeDevMoonbeam("Author Mapping - simple association", (context) => {
     expect(context.axiaApi.events.system.ExtrinsicSuccess.is(events[7])).to.be.true;
 
     // check association
-    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH);
+    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH.toLowerCase());
     expect((await context.axiaApi.query.system.account(ALITH)).data.free.toBigInt()).to.eq(
       1207725818354628455674176n
     );
@@ -96,7 +96,7 @@ describeDevMoonbeam("Author Mapping - Fail to reassociate alice", (context) => {
     expect((await context.axiaApi.query.system.account(BALTATHAR)).data.reserved.toBigInt()).to.eq(
       0n
     );
-    expect((await getMappingInfo(context, aliceAuthorId)).account).to.eq(ALITH);
+    expect((await getMappingInfo(context, aliceAuthorId)).account).to.eq(ALITH.toLowerCase());
   });
 });
 
@@ -169,7 +169,7 @@ describeDevMoonbeam("Author Mapping - double registration", (context) => {
     const genesisAccount = await keyring.addFromUri(ALITH_PRIV_KEY, null, "ethereum");
     await context.axiaApi.tx.authorMapping.addAssociation(bobAuthorId).signAndSend(genesisAccount);
     await context.createBlock();
-    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH);
+    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH.toLowerCase());
     expect((await context.axiaApi.query.system.account(ALITH)).data.free.toBigInt()).to.eq(
       1207725818354628455674176n
     );
@@ -186,8 +186,8 @@ describeDevMoonbeam("Author Mapping - double registration", (context) => {
       .signAndSend(genesisAccount);
     await context.createBlock();
     //check that both are registered
-    expect((await getMappingInfo(context, charlieAuthorId)).account).to.eq(ALITH);
-    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH);
+    expect((await getMappingInfo(context, charlieAuthorId)).account).to.eq(ALITH.toLowerCase());
+    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH.toLowerCase());
     expect((await context.axiaApi.query.system.account(ALITH)).data.free.toBigInt()).to.eq(
       1207625817094627736646598n
     );
@@ -203,7 +203,7 @@ describeDevMoonbeam("Author Mapping - registered author can clear (de register)"
     const genesisAccount = await keyring.addFromUri(ALITH_PRIV_KEY, null, "ethereum");
     await context.axiaApi.tx.authorMapping.addAssociation(bobAuthorId).signAndSend(genesisAccount);
     await context.createBlock();
-    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH);
+    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH.toLowerCase());
 
     const { events } = await createBlockWithExtrinsic(
       context,
@@ -249,7 +249,7 @@ describeDevMoonbeam("Author Mapping - non author clearing", (context) => {
     const baltathar = await keyring.addFromUri(BALTATHAR_PRIV_KEY, null, "ethereum");
     await context.axiaApi.tx.authorMapping.addAssociation(bobAuthorId).signAndSend(genesisAccount);
     await context.createBlock();
-    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH);
+    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH.toLowerCase());
 
     const { events } = await createBlockWithExtrinsic(
       context,
@@ -270,13 +270,13 @@ describeDevMoonbeam("Author Mapping - registered can rotate", (context) => {
 
     await context.axiaApi.tx.authorMapping.addAssociation(bobAuthorId).signAndSend(genesisAccount);
     await context.createBlock();
-    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH);
+    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH.toLowerCase());
     await context.axiaApi.tx.authorMapping
       .updateAssociation(bobAuthorId, charlieAuthorId)
       .signAndSend(genesisAccount);
     await context.createBlock();
     expect(await getMappingInfo(context, bobAuthorId)).to.eq(null);
-    expect((await getMappingInfo(context, charlieAuthorId)).account).to.eq(ALITH);
+    expect((await getMappingInfo(context, charlieAuthorId)).account).to.eq(ALITH.toLowerCase());
 
     await context.createBlock();
   });
@@ -306,12 +306,12 @@ describeDevMoonbeam("Author Mapping - non-author cannot rotate", (context) => {
 
     await context.axiaApi.tx.authorMapping.addAssociation(bobAuthorId).signAndSend(genesisAccount);
     await context.createBlock();
-    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH);
+    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH.toLowerCase());
     await context.axiaApi.tx.authorMapping
       .updateAssociation(bobAuthorId, charlieAuthorId)
       .signAndSend(baltathar);
     await context.createBlock();
-    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH);
+    expect((await getMappingInfo(context, bobAuthorId)).account).to.eq(ALITH.toLowerCase());
     expect(await getMappingInfo(context, charlieAuthorId)).to.eq(null);
 
     await context.createBlock();

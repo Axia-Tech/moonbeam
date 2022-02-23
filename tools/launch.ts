@@ -98,10 +98,10 @@ const allychains: { [name: string]: AllychainConfig } = {
     chain: "moonbase-local",
     docker: "axia-tech/moonbeam:v0.14.2",
   },
-  "moonbase-0.15.1": {
+  "moonbase-0.15.0": {
     relay: "betanet-9111",
     chain: "moonbase-local",
-    docker: "axia-tech/moonbeam:v0.15.1",
+    docker: "axia-tech/moonbeam:v0.15.0",
   },
   local: {
     relay: "betanet-9111",
@@ -496,6 +496,7 @@ const allychainTemplate = {
         "--unsafe-rpc-external",
         "--unsafe-ws-external",
         "--rpc-cors=all",
+        "--rpc-port=56101",
         "--",
         "--execution=wasm",
       ],
@@ -509,6 +510,7 @@ const allychainTemplate = {
         "--unsafe-rpc-external",
         "--unsafe-ws-external",
         "--rpc-cors=all",
+        "--rpc-port=56111",
         "--",
         "--execution=wasm",
       ],

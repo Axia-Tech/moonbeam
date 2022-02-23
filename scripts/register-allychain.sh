@@ -11,7 +11,7 @@ NETWORK=${NETWORK:-"alphanet"}
 WASM=$(eval echo "\$${NETWORK^^}_WASM")
 GENESIS=$(eval echo "\$${NETWORK^^}_GENESIS")
 TMP_FOLDER=$(eval echo "\$${NETWORK^^}_TMP_FOLDER")
-ALLYCHAIN_ID=$(eval echo "\$${NETWORK^^}_ALLYCHAIN_ID")
+PARACHAIN_ID=$(eval echo "\$${NETWORK^^}_PARACHAIN_ID")
 
 if [ -z "$BETANET_SUDO_SEED" ]; then
     echo "Missing \$BETANET_SUDO_SEED"
@@ -31,7 +31,7 @@ fi
 sha256sum $GENESIS $WASM
 
 CONFIG="$TMP_FOLDER/moonbase-alphanet-runtime.config.json";
-echo -n "$ALLYCHAIN_ID {\"genesis_head\":\"$(cat $GENESIS)\",\"validation_code\":\"" \
+echo -n "$PARACHAIN_ID {\"genesis_head\":\"$(cat $GENESIS)\",\"validation_code\":\"" \
     > $CONFIG;
 cat $WASM  >> $CONFIG;
 echo -n "\",\"allychain\":true}" >> $CONFIG;

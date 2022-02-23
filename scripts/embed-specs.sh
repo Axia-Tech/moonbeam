@@ -9,7 +9,7 @@ fi
 NETWORK=$1
 DOCKER_TAG=$2
 
-ALLYCHAIN_DOCKER=axia-tech/moonbase-${NETWORK}:${DOCKER_TAG}
-docker create --name moonbeam-tmp $ALLYCHAIN_DOCKER
+PARACHAIN_DOCKER=axia-tech/moonbase-${NETWORK}:${DOCKER_TAG}
+docker create --name moonbeam-tmp $PARACHAIN_DOCKER
 docker cp moonbeam-tmp:/moonbase-allychain/allychain-raw-specs.json specs/${NETWORK}/allychain-embedded-specs-${DOCKER_TAG}.json
 docker rm moonbeam-tmp

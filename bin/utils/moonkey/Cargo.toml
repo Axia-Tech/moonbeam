@@ -1,11 +1,11 @@
 [package]
 name = "moonkey"
-authors = ["AxiaStake"]
-description = "Moonbeam Key Tool"
-edition = "2018"
-homepage = "https://moonbeam.network"
-license = "GPL-3.0-only"
+description = 'Moonbeam Key Tool'
 version = "0.1.1"
+authors = ["AxiaStake"]
+edition = "2018"
+license = 'GPL-3.0-only'
+homepage = 'https://moonbeam.network'
 
 [[bin]]
 name = "moonkey"

@@ -55,7 +55,7 @@ async function main() {
       },
       repo: {
         type: "string",
-        choices: ["axiatech/axlib", "axiatech/axia", "axiatech/cumulus"],
+        choices: ["axia-techtech/axlib", "axia-techtech/axia", "axia-techtech/cumulus"],
         describe: "which repository to read",
       },
       "only-label": {

@@ -1,12 +1,12 @@
 // Moon-808
 // What happens if one calls
-// function score_a_free_delegation() public payable{
+// function score_a_free_nomination() public payable{
 
-//     // We delegate our target collator with all the tokens provided
-//     staking.delegate(target, msg.value);
+//     // We nominate our target collator with all the tokens provided
+//     staking.nominate(target, msg.value);
 //     revert("By reverting this transaction, we return the eth to the caller");
 // }
-// Would the delegation pass in axlib but get the eth back in the evm?
+// Would the nomination pass in subtrate but get the eth back in the evm?
 // We have to make sure that's not possible
 
 import { expect } from "chai";
@@ -26,7 +26,7 @@ describeDevMoonbeam("Precompiles - test revert attack on state modifier", (conte
     // Check initial balance
     const initialBalance = await context.web3.eth.getBalance(GENESIS_ACCOUNT);
     // Deploy atatck contract
-    const { contract, rawTx } = await createContract(context.web3, "StakingDelegationAttaker");
+    const { contract, rawTx } = await createContract(context.web3, "StakingNominationAttaker");
     await context.createBlock({ transactions: [rawTx] });
 
     // call the payable function, which should revert
@@ -36,7 +36,7 @@ describeDevMoonbeam("Precompiles - test revert attack on state modifier", (conte
           context.web3,
           {
             contract,
-            contractCall: contract.methods.score_a_free_delegation(),
+            contractCall: contract.methods.score_a_free_nomination(),
           },
           {
             ...GENESIS_TRANSACTION,
@@ -50,8 +50,8 @@ describeDevMoonbeam("Precompiles - test revert attack on state modifier", (conte
     const receipt = await context.web3.eth.getTransactionReceipt(block.txResults[0].result);
     expect(receipt.status).to.eq(false);
 
-    // Delegation shouldn't have passed
-    const nominatorsAfter = await context.axiaApi.query.allychainStaking.delegatorState(
+    // Nomination shouldn't have passed
+    const nominatorsAfter = await context.axiaApi.query.allychainStaking.nominatorState2(
       GENESIS_ACCOUNT
     );
     expect(nominatorsAfter.toHuman()).to.eq(null);

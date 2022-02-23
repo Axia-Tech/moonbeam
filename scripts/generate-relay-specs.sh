@@ -9,7 +9,7 @@ fi
 
 echo "Using AXIA revision #${AXIA_VERSION}"
 
-echo "=================== BetaNet-Local ==================="
+echo "=================== BETANET-Local ==================="
 docker run -it -v $(pwd)/build:/build axia-tech/moonbase-relay-testnet:$AXIA_VERSION \
   /usr/local/bin/axia \
     build-spec \

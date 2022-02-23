@@ -69,7 +69,7 @@ pub fn development_chain_spec(mnemonic: Option<String>, num_accounts: Option<u32
 					get_from_seed::<NimbusId>("Alice"),
 					1_000 * UNIT,
 				)],
-				// Delegations
+				// Nominations
 				vec![],
 				accounts.clone(),
 				3_000_000 * UNIT,
@@ -133,7 +133,7 @@ pub fn get_chain_spec(para_id: ParaId) -> ChainSpec {
 						1_000 * UNIT,
 					),
 				],
-				// Delegations
+				// Nominations
 				vec![],
 				vec![
 					AccountId::from_str("f24FF3a9CF04c71Dbc94D0b566f7A27B94566cac").unwrap(),
@@ -186,7 +186,7 @@ pub fn testnet_genesis(
 	council_members: Vec<AccountId>,
 	tech_comittee_members: Vec<AccountId>,
 	candidates: Vec<(AccountId, NimbusId, Balance)>,
-	delegations: Vec<(AccountId, AccountId, Balance)>,
+	nominations: Vec<(AccountId, AccountId, Balance)>,
 	endowed_accounts: Vec<AccountId>,
 	crowdloan_fund_pot: Balance,
 	para_id: ParaId,
@@ -226,7 +226,7 @@ pub fn testnet_genesis(
 			accounts: Precompiles::used_addresses()
 				.map(|addr| {
 					(
-						addr.into(),
+						addr,
 						GenesisAccount {
 							nonce: Default::default(),
 							balance: Default::default(),
@@ -246,7 +246,7 @@ pub fn testnet_genesis(
 				.cloned()
 				.map(|(account, _, bond)| (account, bond))
 				.collect(),
-			delegations,
+			nominations,
 			inflation_config: moonbeam_inflation_config(),
 		},
 		council_collective: CouncilCollectiveConfig {
@@ -287,8 +287,10 @@ mod tests {
 			"bottom drive obey lake curtain smoke basket hold race lonely fit walk".to_string();
 		let accounts = 10;
 		let pairs = derive_bip44_pairs_from_mnemonic::<ecdsa::Public>(&mnemonic, accounts);
-		let first_account = get_account_id_from_pair(pairs.first().unwrap().clone()).unwrap();
-		let last_account = get_account_id_from_pair(pairs.last().unwrap().clone()).unwrap();
+		let first_account =
+			get_account_id_from_pair::<ecdsa::Public>(pairs.first().unwrap().clone()).unwrap();
+		let last_account =
+			get_account_id_from_pair::<ecdsa::Public>(pairs.last().unwrap().clone()).unwrap();
 
 		let expected_first_account =
 			AccountId::from_str("f24FF3a9CF04c71Dbc94D0b566f7A27B94566cac").unwrap();
@@ -305,8 +307,10 @@ mod tests {
 				.to_string();
 		let accounts = 20;
 		let pairs = derive_bip44_pairs_from_mnemonic::<ecdsa::Public>(&mnemonic, accounts);
-		let first_account = get_account_id_from_pair(pairs.first().unwrap().clone()).unwrap();
-		let last_account = get_account_id_from_pair(pairs.last().unwrap().clone()).unwrap();
+		let first_account =
+			get_account_id_from_pair::<ecdsa::Public>(pairs.first().unwrap().clone()).unwrap();
+		let last_account =
+			get_account_id_from_pair::<ecdsa::Public>(pairs.last().unwrap().clone()).unwrap();
 
 		let expected_first_account =
 			AccountId::from_str("1e56ca71b596f2b784a27a2fdffef053dbdeff83").unwrap();

@@ -5,13 +5,12 @@ import { BN } from "@axia/util";
 import { ALITH_PRIV_KEY } from "../util/constants";
 import { describeDevMoonbeam } from "../util/setup-dev-tests";
 import { createBlockWithExtrinsic } from "../util/axlib-rpc";
-import { verifyLatestBlockFees } from "../util/block";
 
 const palletId = "0x6D6f646c617373746d6E67720000000000000000";
 
 const assetMetadata = {
-  name: "AXC",
-  symbol: "AXC",
+  name: "DOT",
+  symbol: "DOT",
   decimals: new BN(12),
   isFrozen: false,
 };
@@ -51,8 +50,6 @@ describeDevMoonbeam("XCM - asset manager - register asset", (context) => {
 
     // check asset in storage
     const registeredAsset = ((await allychainOne.query.assets.asset(assetId)) as any).unwrap();
-    expect(registeredAsset.owner.toString()).to.eq(palletId);
-
-    await verifyLatestBlockFees(context.axiaApi, expect);
+    expect(registeredAsset.owner.toHex()).to.eq(palletId.toLowerCase());
   });
 });

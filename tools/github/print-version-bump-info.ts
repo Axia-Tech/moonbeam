@@ -3,22 +3,16 @@ import yargs from "yargs";
 import { getCommitAndLabels } from "./github-utils";
 
 async function printInfo(octokit: Octokit, previousVersion: string, nextVersion: string) {
-  const owners = {
-    axlib: "axiatech",
-    axia: "axiatech",
-    cumulus: "axiatech",
-    nimbus: "axia-tech",
-  };
+  const owner = "axia-techtech";
   const prefixes = {
     axlib: "axia-",
     axia: "release-",
     cumulus: "axia-",
-    nimbus: "moonbeam-axia-",
   };
   console.log(`# Description\n`);
   console.log(`This ticket is automatically generated using\n`);
   console.log("```");
-  console.log(`$ npm run print-version-bump-info --from ${previousVersion} --to ${nextVersion}`);
+  console.log(`$ yarn run print-version-bump-info --from ${previousVersion} --to ${nextVersion}`);
   console.log("```");
 
   const prInfoByLabels = {};
@@ -27,22 +21,22 @@ async function printInfo(octokit: Octokit, previousVersion: string, nextVersion:
     const nextTag = `${prefixes[repo]}${nextVersion}`;
 
     const previousCommit = await octokit.rest.git.getCommit({
-      owner: owners[repo],
+      owner,
       repo,
       commit_sha: (
         await octokit.rest.git.getTree({
-          owner: owners[repo],
+          owner,
           repo,
           tree_sha: previousTag,
         })
       ).data.sha,
     });
     const nextCommit = await octokit.rest.git.getCommit({
-      owner: owners[repo],
+      owner,
       repo,
       commit_sha: (
         await octokit.rest.git.getTree({
-          owner: owners[repo],
+          owner,
           repo,
           tree_sha: nextTag,
         })
@@ -56,12 +50,12 @@ async function printInfo(octokit: Octokit, previousVersion: string, nextVersion:
     );
     const { commits, prByLabels } = await getCommitAndLabels(
       octokit,
-      owners[repo],
+      owner,
       repo,
       previousTag,
       nextTag
     );
-    console.log(`https://github.com/${owners[repo]}/${repo}/compare/${previousTag}...${nextTag}`);
+    console.log(`https://github.com/${owner}/${repo}/compare/${previousTag}...${nextTag}`);
     console.log("```");
     console.log(`    from: ${previousCommit.data.sha}`);
     console.log(`      to: ${nextCommit.data.sha}`);
@@ -71,7 +65,7 @@ async function printInfo(octokit: Octokit, previousVersion: string, nextVersion:
     for (const label of Object.keys(prByLabels)) {
       prInfoByLabels[label] = (prInfoByLabels[label] || []).concat(
         prByLabels[label].map((pr) => {
-          return `  ${`(${owners[repo]}/${repo}#${pr.number}) ${pr.title}`}`;
+          return `  ${`(${owner}/${repo}#${pr.number}) ${pr.title}`}`;
         })
       );
     }

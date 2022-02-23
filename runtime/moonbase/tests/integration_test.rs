@@ -31,8 +31,8 @@ use frame_support::{
 };
 use moonbase_runtime::{
 	currency::UNIT, AccountId, AssetId, AssetManager, AssetRegistrarMetadata, AssetType, Assets,
-	Balances, BlockWeights, Call, CrowdloanRewards, Event, AllychainStaking, AXIAXcm,
-	Precompiles, Runtime, System, XTokens,
+	Balances, BlockWeights, Call, CrowdloanRewards, Event, AllychainStaking, Precompiles, Runtime,
+	System,
 };
 use nimbus_primitives::NimbusId;
 use pallet_evm::PrecompileSet;
@@ -52,6 +52,7 @@ use sp_runtime::{
 	DispatchError,
 };
 use xcm::latest::prelude::*;
+use xcm::v1::{Junctions, MultiLocation};
 
 #[test]
 fn fast_track_available() {
@@ -64,14 +65,14 @@ fn verify_pallet_prefixes() {
 		// Compares the unhashed pallet prefix in the `StorageInstance` implementation by every
 		// storage item in the pallet P. This pallet prefix is used in conjunction with the
 		// item name to get the unique storage key: hash(PalletPrefix) + hash(StorageName)
-		// https://github.com/axia-tech/axlib/blob/master/frame/support/procedural/src/pallet/
+		// https://github.com/axia-techtech/axlib/blob/master/frame/support/procedural/src/pallet/
 		// expand/storage.rs#L389-L401
 		assert_eq!(
 			<moonbase_runtime::Runtime as frame_system::Config>::PalletInfo::name::<P>(),
 			Some(name)
 		);
 	}
-	// TODO: use StorageInfoTrait from https://github.com/axia-tech/axlib/pull/9246
+	// TODO: use StorageInfoTrait from https://github.com/axia-techtech/axlib/pull/9246
 	// This is now available with axia-v0.9.9 dependencies
 	is_pallet_prefix::<moonbase_runtime::System>("System");
 	is_pallet_prefix::<moonbase_runtime::Utility>("Utility");
@@ -249,17 +250,6 @@ fn verify_pallet_indices() {
 }
 
 #[test]
-fn verify_proxy_type_indices() {
-	assert_eq!(moonbase_runtime::ProxyType::Any as u8, 0);
-	assert_eq!(moonbase_runtime::ProxyType::NonTransfer as u8, 1);
-	assert_eq!(moonbase_runtime::ProxyType::Governance as u8, 2);
-	assert_eq!(moonbase_runtime::ProxyType::Staking as u8, 3);
-	assert_eq!(moonbase_runtime::ProxyType::CancelProxy as u8, 4);
-	assert_eq!(moonbase_runtime::ProxyType::Balances as u8, 5);
-	assert_eq!(moonbase_runtime::ProxyType::AuthorMapping as u8, 6);
-}
-
-#[test]
 fn join_collator_candidates() {
 	ExtBuilder::default()
 		.with_balances(vec![
@@ -272,7 +262,7 @@ fn join_collator_candidates() {
 			(AccountId::from(ALICE), 1_000 * UNIT),
 			(AccountId::from(BOB), 1_000 * UNIT),
 		])
-		.with_delegations(vec![
+		.with_nominations(vec![
 			(AccountId::from(CHARLIE), AccountId::from(ALICE), 50 * UNIT),
 			(AccountId::from(CHARLIE), AccountId::from(BOB), 50 * UNIT),
 		])
@@ -292,7 +282,7 @@ fn join_collator_candidates() {
 					1_000 * UNIT,
 					2u32
 				),
-				allychain_staking::Error::<Runtime>::DelegatorExists
+				allychain_staking::Error::<Runtime>::NominatorExists
 			);
 			assert!(System::events().is_empty());
 			assert_ok!(AllychainStaking::join_candidates(
@@ -365,8 +355,8 @@ fn transfer_through_evm_to_stake() {
 			let gas_price: U256 = 1_000_000_000.into();
 			// Bob transfers 1000 UNIT to Charlie via EVM
 			assert_ok!(Call::EVM(pallet_evm::Call::<Runtime>::call {
-				source: H160::from(BOB),
-				target: H160::from(CHARLIE),
+				source: AccountId::from(BOB),
+				target: AccountId::from(CHARLIE),
 				input: Vec::new(),
 				value: (1_000 * UNIT).into(),
 				gas_limit,
@@ -405,7 +395,7 @@ fn reward_block_authors() {
 			(AccountId::from(BOB), 1_000 * UNIT),
 		])
 		.with_collators(vec![(AccountId::from(ALICE), 1_000 * UNIT)])
-		.with_delegations(vec![(
+		.with_nominations(vec![(
 			AccountId::from(BOB),
 			AccountId::from(ALICE),
 			500 * UNIT,
@@ -448,7 +438,7 @@ fn reward_block_authors_with_allychain_bond_reserved() {
 			(AccountId::from(CHARLIE), UNIT),
 		])
 		.with_collators(vec![(AccountId::from(ALICE), 1_000 * UNIT)])
-		.with_delegations(vec![(
+		.with_nominations(vec![(
 			AccountId::from(BOB),
 			AccountId::from(ALICE),
 			500 * UNIT,
@@ -779,7 +769,7 @@ fn claim_via_precompile() {
 			call_data[0..4].copy_from_slice(&Keccak256::digest(b"claim()")[0..4]);
 
 			assert_ok!(Call::EVM(pallet_evm::Call::<Runtime>::call {
-				source: H160::from(CHARLIE),
+				source: AccountId::from(CHARLIE),
 				target: crowdloan_precompile_address,
 				input: call_data,
 				value: U256::zero(), // No value sent in EVM
@@ -1069,7 +1059,7 @@ fn update_reward_address_via_precompile() {
 			call_data[16..36].copy_from_slice(&ALICE);
 
 			assert_ok!(Call::EVM(pallet_evm::Call::<Runtime>::call {
-				source: H160::from(CHARLIE),
+				source: AccountId::from(CHARLIE),
 				target: crowdloan_precompile_address,
 				input: call_data,
 				value: U256::zero(), // No value sent in EVM
@@ -1120,7 +1110,7 @@ fn asset_erc20_precompiles_supply_and_balance() {
 			assert_eq!(Assets::total_supply(0u128), 1_000 * UNIT);
 
 			// Convert the assetId to its corresponding precompile address
-			let asset_precompile_address = Runtime::asset_id_to_account(0u128).into();
+			let asset_precompile_address = Runtime::asset_id_to_account(0u128);
 
 			// The expected result for both total supply and balance of is the same, as only Alice
 			// holds balance
@@ -1175,7 +1165,7 @@ fn asset_erc20_precompiles_transfer() {
 		])
 		.build()
 		.execute_with(|| {
-			let asset_precompile_address = Runtime::asset_id_to_account(0u128).into();
+			let asset_precompile_address = Runtime::asset_id_to_account(0u128);
 
 			// Expected result for a transfer
 			let expected_result = Some(Ok(PrecompileOutput {
@@ -1247,7 +1237,7 @@ fn asset_erc20_precompiles_approve() {
 		])
 		.build()
 		.execute_with(|| {
-			let asset_precompile_address = Runtime::asset_id_to_account(0u128).into();
+			let asset_precompile_address = Runtime::asset_id_to_account(0u128);
 
 			// Expected result for approve
 			let expected_result = Some(Ok(PrecompileOutput {
@@ -1369,7 +1359,7 @@ fn xtokens_precompiles_transfer() {
 			let relay_asset_id: AssetId = AssetType::Xcm(MultiLocation::parent()).into();
 
 			// Its address is
-			let asset_precompile_address = Runtime::asset_id_to_account(relay_asset_id).into();
+			let asset_precompile_address = Runtime::asset_id_to_account(relay_asset_id);
 
 			// Alice has 1000 tokens. She should be able to send through precompile
 			let destination = MultiLocation::new(
@@ -1577,8 +1567,8 @@ fn transfer_ed_0_evm() {
 		.execute_with(|| {
 			// EVM transfer
 			assert_ok!(Call::EVM(pallet_evm::Call::<Runtime>::call {
-				source: H160::from(ALICE),
-				target: H160::from(BOB),
+				source: AccountId::from(ALICE),
+				target: AccountId::from(BOB),
 				input: Vec::new(),
 				value: (1 * UNIT).into(),
 				gas_limit: 21_000u64,
@@ -1605,8 +1595,8 @@ fn refund_ed_0_evm() {
 		.execute_with(|| {
 			// EVM transfer that zeroes ALICE
 			assert_ok!(Call::EVM(pallet_evm::Call::<Runtime>::call {
-				source: H160::from(ALICE),
-				target: H160::from(BOB),
+				source: AccountId::from(ALICE),
+				target: AccountId::from(BOB),
 				input: Vec::new(),
 				value: (1 * UNIT).into(),
 				gas_limit: 21_777u64,
@@ -1620,62 +1610,4 @@ fn refund_ed_0_evm() {
 				777 * 1_000_000_000,
 			);
 		});
-}
-
-#[test]
-fn root_can_change_default_xcm_vers() {
-	ExtBuilder::default()
-		.with_balances(vec![
-			(AccountId::from(ALICE), 2_000 * UNIT),
-			(AccountId::from(BOB), 1_000 * UNIT),
-		])
-		.with_xcm_assets(vec![(
-			AssetType::Xcm(MultiLocation::parent()),
-			AssetRegistrarMetadata {
-				name: b"RelayToken".to_vec(),
-				symbol: b"Relay".to_vec(),
-				decimals: 12,
-				is_frozen: false,
-			},
-			vec![(AccountId::from(ALICE), 1_000_000_000_000_000)],
-		)])
-		.build()
-		.execute_with(|| {
-			let source_location = AssetType::Xcm(MultiLocation::parent());
-			let dest = MultiLocation {
-				parents: 1,
-				interior: X1(AccountId32 {
-					network: NetworkId::Any,
-					id: [1u8; 32],
-				}),
-			};
-			let source_id: moonbase_runtime::AssetId = source_location.clone().into();
-			// Default XCM version is not set yet, so xtokens should fail because it does not
-			// know with which version to send
-			assert_noop!(
-				XTokens::transfer(
-					origin_of(AccountId::from(ALICE)),
-					moonbase_runtime::CurrencyId::OtherReserve(source_id),
-					100_000_000_000_000,
-					Box::new(xcm::VersionedMultiLocation::V1(dest.clone())),
-					4000000000
-				),
-				orml_xtokens::Error::<Runtime>::XcmExecutionFailed
-			);
-
-			// Root sets the defaultXcm
-			assert_ok!(AXIAXcm::force_default_xcm_version(
-				root_origin(),
-				Some(2)
-			));
-
-			// Now transferring does not fail
-			assert_ok!(XTokens::transfer(
-				origin_of(AccountId::from(ALICE)),
-				moonbase_runtime::CurrencyId::OtherReserve(source_id),
-				100_000_000_000_000,
-				Box::new(xcm::VersionedMultiLocation::V1(dest)),
-				4000000000
-			));
-		})
 }

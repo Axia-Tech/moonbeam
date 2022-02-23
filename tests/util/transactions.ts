@@ -4,10 +4,8 @@ import * as RLP from "rlp";
 import { getCompiled } from "./contracts";
 import { Contract } from "web3-eth-contract";
 import fetch from "node-fetch";
-import { Event } from "@axia/types/interfaces";
 import { DevTestContext } from "./setup-dev-tests";
 import { customWeb3Request } from "./providers";
-import { createBlockWithExtrinsic } from "./axlib-rpc";
 const debug = require("debug")("test:transaction");
 
 export interface TransactionOptions {
@@ -228,11 +226,4 @@ export async function callPrecompile(
       data,
     },
   ]);
-}
-
-/// Sign and send Axlib transaction and then create a block.
-/// Will provide events emited by the transaction to check if they match what is expected.
-export async function axlibTransaction(context, sender, axiaCall): Promise<Event[]> {
-  const { events } = await createBlockWithExtrinsic(context, sender, axiaCall);
-  return events;
 }

@@ -11,7 +11,7 @@
     "/dns4/node-6844484891634491392-0.p2p.onfinality.io/tcp/14108/ws/p2p/12D3KooWRGTB3pGd95amXNGTqVuVQW7oeTP5BDemD1d63TSnini8"
   ],
   "telemetryEndpoints": [
-    ["/dns/telemetry.axia.io/tcp/443/x-axia-wss/%2Fsubmit%2F", 0]
+    ["/dns/telemetry.axia.io/tcp/443/x-axia-tech-wss/%2Fsubmit%2F", 0]
   ],
   "protocolId": null,
   "properties": {

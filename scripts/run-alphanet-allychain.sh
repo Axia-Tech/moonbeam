@@ -28,11 +28,11 @@ fi
 
 # Will retrieve variable from the given network
 NETWORK=${NETWORK:-"alphanet"}
-ALLYCHAIN_ID=$(eval echo "\$${NETWORK^^}_ALLYCHAIN_ID")
+PARACHAIN_ID=$(eval echo "\$${NETWORK^^}_PARACHAIN_ID")
 STAKERS=($(eval echo "\${${NETWORK^^}_STAKERS[@]}"))
 
 if [ -z "$CHAIN" ]; then
-  CHAIN=$(eval echo "\$${NETWORK^^}_ALLYCHAIN_SPEC_RAW")
+  CHAIN=$(eval echo "\$${NETWORK^^}_PARACHAIN_SPEC_RAW")
 fi
 
 # We retrieve the list of relay node for
@@ -55,56 +55,56 @@ do
 done
 
 
-ALLYCHAIN_PORT=$((USER_PORT + 1000 + 42))
-ALLYCHAIN_INDEX=0
-ALLYCHAIN_BOOTNODES_ARGS=""
-while nc -z -v -w5 ${ALLYCHAIN_IP} $((ALLYCHAIN_PORT + 10)) 2> /dev/null
+PARACHAIN_PORT=$((USER_PORT + 1000 + 42))
+PARACHAIN_INDEX=0
+PARACHAIN_BOOTNODES_ARGS=""
+while nc -z -v -w5 ${PARACHAIN_IP} $((PARACHAIN_PORT + 10)) 2> /dev/null
 do
-  echo "Found existing allychain on $((ALLYCHAIN_PORT + 10))."
-  ALLYCHAIN_BOOTNODES_ARGS="$ALLYCHAIN_BOOTNODES_ARGS --bootnodes \
-    /ip4/$ALLYCHAIN_IP/tcp/$((ALLYCHAIN_PORT + 10))/p2p/${ALLYCHAIN_LOCAL_IDS[$ALLYCHAIN_INDEX]}"
-  ALLYCHAIN_INDEX=$((ALLYCHAIN_INDEX + 1))
-  ALLYCHAIN_PORT=$((ALLYCHAIN_PORT + 100))
+  echo "Found existing allychain on $((PARACHAIN_PORT + 10))."
+  PARACHAIN_BOOTNODES_ARGS="$PARACHAIN_BOOTNODES_ARGS --bootnodes \
+    /ip4/$PARACHAIN_IP/tcp/$((PARACHAIN_PORT + 10))/p2p/${PARACHAIN_LOCAL_IDS[$PARACHAIN_INDEX]}"
+  PARACHAIN_INDEX=$((PARACHAIN_INDEX + 1))
+  PARACHAIN_PORT=$((PARACHAIN_PORT + 100))
 
-  if [ $ALLYCHAIN_PORT -ge $((USER_PORT + 2000)) ]
+  if [ $PARACHAIN_PORT -ge $((USER_PORT + 2000)) ]
   then
     echo "No more allychain port available! (limited to 9 allychains)"
     exit 1
   fi
 done
 
-if [ -z "$ALLYCHAIN_BASE_PREFIX" ]; then
-  ALLYCHAIN_BASE_PATH="--tmp"
+if [ -z "$PARACHAIN_BASE_PREFIX" ]; then
+  PARACHAIN_BASE_PATH="--tmp"
 else
-  ALLYCHAIN_BASE_PATH="$ALLYCHAIN_BASE_PREFIX-allychain-$ALLYCHAIN_INDEX"
+  PARACHAIN_BASE_PATH="$PARACHAIN_BASE_PREFIX-allychain-$PARACHAIN_INDEX"
 fi
 
-echo "allychain $ALLYCHAIN_INDEX ($ALLYCHAIN_ID) - p2p-port: $((ALLYCHAIN_PORT + 10)), \
-http-port: $((ALLYCHAIN_PORT + 10 + 1)), ws-port: $((ALLYCHAIN_PORT + 10 + 2))"
+echo "allychain $PARACHAIN_INDEX ($PARACHAIN_ID) - p2p-port: $((PARACHAIN_PORT + 10)), \
+http-port: $((PARACHAIN_PORT + 10 + 1)), ws-port: $((PARACHAIN_PORT + 10 + 2))"
 
 sha256sum $CHAIN
 $MOONBEAM_BINARY \
-  --node-key ${ALLYCHAIN_NODE_KEYS[$ALLYCHAIN_INDEX]} \
-  --listen-addr "/ip4/0.0.0.0/tcp/$((ALLYCHAIN_PORT + 10))" \
-  --rpc-port $((ALLYCHAIN_PORT + 10 + 1)) \
-  --ws-port $((ALLYCHAIN_PORT + 10 + 2)) \
+  --node-key ${PARACHAIN_NODE_KEYS[$PARACHAIN_INDEX]} \
+  --listen-addr "/ip4/0.0.0.0/tcp/$((PARACHAIN_PORT + 10))" \
+  --rpc-port $((PARACHAIN_PORT + 10 + 1)) \
+  --ws-port $((PARACHAIN_PORT + 10 + 2)) \
   --collator \
   --rpc-cors all \
   --rpc-methods=unsafe \
   --execution wasm \
   --wasm-execution compiled \
-  --name allychain_$ALLYCHAIN_INDEX \
-  $ALLYCHAIN_BASE_PATH \
+  --name allychain_$PARACHAIN_INDEX \
+  $PARACHAIN_BASE_PATH \
   '-linfo,evm=debug,ethereum=trace,rpc=trace,cumulus_collator=debug,txpool=debug' \
-  --${WELL_KNOWN_USERS[$ALLYCHAIN_INDEX]} \
+  --${WELL_KNOWN_USERS[$PARACHAIN_INDEX]} \
   --chain $CHAIN \
-  $ALLYCHAIN_BOOTNODES_ARGS \
+  $PARACHAIN_BOOTNODES_ARGS \
   -- \
-    --node-key ${ALLYCHAIN_NODE_KEYS[$ALLYCHAIN_INDEX]} \
-    $ALLYCHAIN_BASE_PATH \
-    --listen-addr "/ip4/0.0.0.0/tcp/$((ALLYCHAIN_PORT))" \
-    --rpc-port $((ALLYCHAIN_PORT + 1)) \
-    --ws-port $((ALLYCHAIN_PORT + 2)) \
+    --node-key ${PARACHAIN_NODE_KEYS[$PARACHAIN_INDEX]} \
+    $PARACHAIN_BASE_PATH \
+    --listen-addr "/ip4/0.0.0.0/tcp/$((PARACHAIN_PORT))" \
+    --rpc-port $((PARACHAIN_PORT + 1)) \
+    --ws-port $((PARACHAIN_PORT + 2)) \
     --chain $BETANET_LOCAL_RAW_SPEC \
   $RELAY_BOOTNODES_ARGS;
   

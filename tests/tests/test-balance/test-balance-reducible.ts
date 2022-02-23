@@ -32,9 +32,7 @@ describeDevMoonbeam("Reducible Balance", (context) => {
     let encodedHash = blake2AsHex(encodedProposal);
 
     // Submit the pre-image
-    await context.axiaApi.tx.democracy
-      .notePreimage(encodedProposal)
-      .signAndSend(genesisAccount);
+    await context.axiaApi.tx.democracy.notePreimage(encodedProposal).signAndSend(genesisAccount);
 
     await context.createBlock();
 

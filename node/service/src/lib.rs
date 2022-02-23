@@ -190,7 +190,7 @@ pub fn frontier_database_dir(config: &Configuration) -> std::path::PathBuf {
 }
 
 // TODO This is copied from frontier. It should be imported instead after
-// https://github.com/axiatech/frontier/issues/333 is solved
+// https://github.com/axia-techtech/frontier/issues/333 is solved
 pub fn open_frontier_backend(config: &Configuration) -> Result<Arc<fc_db::Backend<Block>>, String> {
 	Ok(Arc::new(fc_db::Backend::<Block>::new(
 		&fc_db::DatabaseSettings {
@@ -363,7 +363,7 @@ where
 	// Depending whether we are
 	let import_queue = if dev_service {
 		// There is a bug in this import queue where it doesn't properly check inherents:
-		// https://github.com/axia-tech/axlib/issues/8164
+		// https://github.com/axia-techtech/axlib/issues/8164
 		sc_consensus_manual_seal::import_queue(
 			Box::new(frontier_block_import.clone()),
 			&task_manager.spawn_essential_handle(),
@@ -807,6 +807,7 @@ where
 			prometheus_registry.as_ref(),
 			telemetry.as_ref().map(|x| x.handle()),
 		);
+
 		let commands_stream: Box<dyn Stream<Item = EngineCommand<H256>> + Send + Sync + Unpin> =
 			match sealing {
 				cli_opt::Sealing::Instant => {
@@ -883,6 +884,7 @@ where
 			}),
 		);
 	}
+
 	rpc::spawn_essential_tasks(rpc::SpawnTasksParams {
 		task_manager: &task_manager,
 		client: client.clone(),

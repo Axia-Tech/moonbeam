@@ -795,9 +795,8 @@ where
 		let axlib_parent_id = BlockId::<B>::Hash(*block_header.parent_hash());
 
 		// Get Ethereum block data.
-		let (eth_block, _, eth_transactions) = api
-			.current_all(&BlockId::Hash(axlib_hash))
-			.map_err(|e| {
+		let (eth_block, _, eth_transactions) =
+			api.current_all(&BlockId::Hash(axlib_hash)).map_err(|e| {
 				internal_err(format!(
 					"Failed to get Ethereum block data for Axlib block {} : {:?}",
 					axlib_hash, e

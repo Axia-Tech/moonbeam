@@ -230,7 +230,7 @@ export async function startAllychainNodes(options: AllychainOptions): Promise<{
 export async function stopAllychainNodes() {
   killAll();
   await new Promise((resolve) => {
-    // TODO: improve, make killAll async https://github.com/axiatech/axia-launch/issues/139
+    // TODO: improve, make killAll async https://github.com/axia-techtech/axia-launch/issues/139
     console.log("Waiting 10 seconds for processes to shut down...");
     setTimeout(resolve, 10000);
     nodeStarted = false;

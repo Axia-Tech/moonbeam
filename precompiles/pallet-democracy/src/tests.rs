@@ -234,7 +234,7 @@ fn lowest_unbaked_zero() {
 }
 
 // This test is currently failing. I believe it is caused by a bug in the underlying pallet. I've
-// asked about it in https://github.com/axia-tech/axlib/issues/9739
+// asked about it in https://github.com/axia-techtech/axlib/issues/9739
 #[ignore]
 #[test]
 fn lowest_unbaked_non_zero() {
@@ -303,42 +303,42 @@ fn lowest_unbaked_non_zero() {
 		});
 }
 
-// waiting on https://github.com/axia-tech/axlib/pull/9565
+// waiting on https://github.com/axia-techtech/axlib/pull/9565
 #[ignore]
 #[test]
 fn ongoing_ref_info_works() {
 	todo!()
 }
 
-// waiting on https://github.com/axia-tech/axlib/pull/9565
+// waiting on https://github.com/axia-techtech/axlib/pull/9565
 #[ignore]
 #[test]
 fn ongoing_ref_info_bad_index() {
 	todo!()
 }
 
-// waiting on https://github.com/axia-tech/axlib/pull/9565
+// waiting on https://github.com/axia-techtech/axlib/pull/9565
 #[ignore]
 #[test]
 fn ongoing_ref_info_is_not_ongoing() {
 	todo!()
 }
 
-// waiting on https://github.com/axia-tech/axlib/pull/9565
+// waiting on https://github.com/axia-techtech/axlib/pull/9565
 #[ignore]
 #[test]
 fn finished_ref_info_works() {
 	todo!()
 }
 
-// waiting on https://github.com/axia-tech/axlib/pull/9565
+// waiting on https://github.com/axia-techtech/axlib/pull/9565
 #[ignore]
 #[test]
 fn finished_ref_info_bad_index() {
 	todo!()
 }
 
-// waiting on https://github.com/axia-tech/axlib/pull/9565
+// waiting on https://github.com/axia-techtech/axlib/pull/9565
 #[ignore]
 #[test]
 fn finished_ref_info_is_not_finished() {
@@ -592,7 +592,7 @@ fn remove_vote_dne() {
 		.build()
 		.execute_with(|| {
 			// Before we can vote on anything, we have to have a referendum there to vote on.
-			// This will be nicer after https://github.com/axia-tech/axlib/pull/9484
+			// This will be nicer after https://github.com/axia-techtech/axlib/pull/9484
 			// Make a proposal
 			assert_ok!(Call::Democracy(DemocracyCall::propose {
 				proposal_hash: Default::default(), // Propose the default hash
@@ -759,7 +759,7 @@ fn unlock_works() {
 
 			// Tokens are locked in `try_vote` when a vote is cast. Why is that not
 			// reflected here?
-			// https://github.com/axia-tech/axlib/blob/master/frame/democracy/src/lib.rs#L1405
+			// https://github.com/axia-techtech/axlib/blob/master/frame/democracy/src/lib.rs#L1405
 			// One possible way to look further: I just noticed there is a `Locks` storage item in
 			// the pallet.
 			// And also, maybe write a test in the pallet to ensure the locks work as expected.

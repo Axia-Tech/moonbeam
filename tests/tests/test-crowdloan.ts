@@ -16,7 +16,6 @@ import {
   ALITH,
 } from "../util/constants";
 import { describeDevMoonbeam, DevTestContext } from "../util/setup-dev-tests";
-import { verifyLatestBlockFees } from "../util/block";
 const relayChainAddress: string =
   "0x1111111111111111111111111111111111111111111111111111111111111111";
 const relayChainAddress_2: string =
@@ -78,8 +77,6 @@ describeDevMoonbeam("Crowdloan", (context) => {
       )
       .signAndSend(sudoAccount);
     await context.createBlock();
-
-    await verifyLatestBlockFees(context.axiaApi, expect, 3_000_000n);
 
     let initBlock = (await context.axiaApi.query.crowdloanRewards.initRelayBlock()) as any;
 

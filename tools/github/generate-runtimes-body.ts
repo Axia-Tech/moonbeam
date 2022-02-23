@@ -8,7 +8,7 @@ import { blake2AsHex } from "@axia/util-crypto";
 
 const RUNTIME_CHANGES_LABEL = "B7-runtimenoteworthy";
 // `AllychainSystem` is pallet index 6. `authorize_upgrade` is extrinsic index 3.
-const MOONBASE_PREFIX_ALLYCHAINSYSTEM_AUTHORIZE_UPGRADE = "0x0603";
+const MOONBASE_PREFIX_PARACHAINSYSTEM_AUTHORIZE_UPGRADE = "0x0603";
 
 function capitalize(s) {
   return s[0].toUpperCase() + s.slice(1);
@@ -33,7 +33,7 @@ function getRuntimeInfo(srtoolReportFolder: string, runtimeName: string) {
 function authorizeUpgradeHash(runtimeName: string, srtool: any): string {
   if (runtimeName == "moonbase") {
     return blake2AsHex(
-      MOONBASE_PREFIX_ALLYCHAINSYSTEM_AUTHORIZE_UPGRADE +
+      MOONBASE_PREFIX_PARACHAINSYSTEM_AUTHORIZE_UPGRADE +
         srtool.runtimes.compressed.blake2_256.substr(2) // remove "0x" prefix
     );
   } else {

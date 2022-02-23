@@ -1,12 +1,12 @@
 # Inspired by AXIA Dockerfile
 
-FROM axiatech/ci-linux:production as builder
+FROM axia-techtech/ci-linux:production as builder
 LABEL maintainer "alan@axia-tech.com"
 LABEL description="This is the build stage for AXIA. Here we create the binary."
 
 ARG PROFILE=release
 ARG AXIA_COMMIT=master
-ARG AXIA_REPO=https://github.com/axiatech/axia
+ARG AXIA_REPO=https://github.com/axia-techtech/axia
 RUN echo "Using axia ${AXIA_COMMIT}"
 WORKDIR /
 

@@ -18,7 +18,7 @@ automatically built and reflects the latest `master` commit.
 ### Code style
 
 Moonbeam is following the
-[Axlib code style](https://github.com/axia-tech/axlib/blob/master/docs/STYLE_GUIDE.md).
+[Axlib code style](https://github.com/axia-techtech/axlib/blob/master/docs/STYLE_GUIDE.md).
 
 In addition, we incorporate several tools to improve code quality. These are integrated into our CI
 and are expected to pass before a PR is considered mergeable. They can also be run locally.
@@ -36,9 +36,9 @@ The following is a list of directories of interest in development.
 | ---------------------- | -------------------------------------------------------------------------- |
 | client/                | Debug & Trace related code (rust)                                          |
 | docker/                | Dockerfiles for running Moonbeam                                           |
-| moonbeam-types-bundle/ | AXIAJs types definitions for Moonbeam (typescript)                         |
+| moonbeam-types-bundle/ | AXIAJs types definitions for Moonbeam (typescript)                     |
 | node/                  | Moonbeam's main node (rust)                                                |
-| pallets/               | Moonmeam's Axlib runtime pallets (rust)                                    |
+| pallets/               | Moonmeam's Axlib runtime pallets (rust)                                |
 | primitives/            | More Debug & Trace related code (rust)                                     |
 | runtime/               | Moonbeam's runtime (on-chain) code (rust, compiled to WASM)                |
 | scripts/               | Utilities for launching and interacting with a Moonbeam chain (typescript) |

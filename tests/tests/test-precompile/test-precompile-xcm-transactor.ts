@@ -8,7 +8,6 @@ import { BN, hexToU8a, bnToHex, u8aToHex } from "@axia/util";
 import Keyring from "@axia/keyring";
 import { blake2AsU8a, xxhashAsU8a } from "@axia/util-crypto";
 import { ALITH, ALITH_PRIV_KEY } from "../../util/constants";
-import { verifyLatestBlockFees } from "../../util/block";
 
 const ADDRESS_XCM_TRANSACTOR = "0x0000000000000000000000000000000000000806";
 const ADDRESS_RELAY_ASSETS = "0xffffffff1fcacbd218edc0eba20fc2308c778080";
@@ -28,9 +27,7 @@ async function mockAssetBalance(context, assetBalance, assetDetails, sudoAccount
     .signAndSend(sudoAccount);
   await context.createBlock();
 
-  let assets = (
-    (await context.axiaApi.query.assetManager.assetIdType(assetId)) as any
-  ).toJSON();
+  let assets = ((await context.axiaApi.query.assetManager.assetIdType(assetId)) as any).toJSON();
   // make sure we created it
   expect(assets["xcm"]["parents"]).to.equal(1);
 
@@ -75,8 +72,8 @@ interface AssetMetadata {
   isFrozen: boolean;
 }
 const relayAssetMetadata: AssetMetadata = {
-  name: "AXC",
-  symbol: "AXC",
+  name: "DOT",
+  symbol: "DOT",
   decimals: new BN(12),
   isFrozen: false,
 };
@@ -190,9 +187,8 @@ describeDevMoonbeam("Precompiles - xcm transactor", (context) => {
     });
 
     await mockAssetBalance(context, assetBalance, assetDetails, sudoAccount, assetId);
-    let beforeAssetBalance = (
-      (await context.axiaApi.query.assets.account(assetId, ALITH)) as any
-    ).balance as BN;
+    let beforeAssetBalance = ((await context.axiaApi.query.assets.account(assetId, ALITH)) as any)
+      .balance as BN;
 
     let beforeAssetDetails = (await context.axiaApi.query.assets.asset(assetId)) as any;
 
@@ -235,9 +231,8 @@ describeDevMoonbeam("Precompiles - xcm transactor", (context) => {
 
     // We have used 1000 units to pay for the fees in the relay, so balance and supply should
     // have changed
-    let afterAssetBalance = (
-      (await context.axiaApi.query.assets.account(assetId, ALITH)) as any
-    ).balance as BN;
+    let afterAssetBalance = ((await context.axiaApi.query.assets.account(assetId, ALITH)) as any)
+      .balance as BN;
 
     let expectedBalance = new BN(100000000000000).sub(new BN(1000));
     expect(afterAssetBalance.eq(expectedBalance)).to.equal(true);
@@ -245,9 +240,6 @@ describeDevMoonbeam("Precompiles - xcm transactor", (context) => {
     let AfterAssetDetails = (await context.axiaApi.query.assets.asset(assetId)) as any;
 
     expect(AfterAssetDetails.unwrap()["supply"].eq(expectedBalance)).to.equal(true);
-
-    // 1000 fee for the relay is paid with relay assets
-    await verifyLatestBlockFees(context.axiaApi, expect);
   });
 });
 
@@ -303,9 +295,8 @@ describeDevMoonbeam("Precompiles - xcm transactor", (context) => {
 
     await mockAssetBalance(context, assetBalance, assetDetails, sudoAccount, assetId);
 
-    let beforeAssetBalance = (
-      (await context.axiaApi.query.assets.account(assetId, ALITH)) as any
-    ).balance as BN;
+    let beforeAssetBalance = ((await context.axiaApi.query.assets.account(assetId, ALITH)) as any)
+      .balance as BN;
 
     let beforeAssetDetails = (await context.axiaApi.query.assets.asset(assetId)) as any;
 
@@ -344,9 +335,8 @@ describeDevMoonbeam("Precompiles - xcm transactor", (context) => {
 
     // We have used 1000 units to pay for the fees in the relay, so balance and supply should
     // have changed
-    let afterAssetBalance = (
-      (await context.axiaApi.query.assets.account(assetId, ALITH)) as any
-    ).balance as BN;
+    let afterAssetBalance = ((await context.axiaApi.query.assets.account(assetId, ALITH)) as any)
+      .balance as BN;
 
     let expectedBalance = new BN(100000000000000).sub(new BN(1000));
     expect(afterAssetBalance.eq(expectedBalance)).to.equal(true);
@@ -354,8 +344,5 @@ describeDevMoonbeam("Precompiles - xcm transactor", (context) => {
     let AfterAssetDetails = (await context.axiaApi.query.assets.asset(assetId)) as any;
 
     expect(AfterAssetDetails.unwrap()["supply"].eq(expectedBalance)).to.equal(true);
-
-    // 1000 fee for the relay is paid with relay assets
-    await verifyLatestBlockFees(context.axiaApi, expect);
   });
 });

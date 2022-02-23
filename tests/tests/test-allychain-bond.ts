@@ -32,7 +32,7 @@ describeDevMoonbeam("Staking - Allychain Bond - genesis and setAllychainBondAcco
       .signAndSend(sudoAccount);
     await context.createBlock();
     const allychainBondInfo = await context.axiaApi.query.allychainStaking.allychainBondInfo();
-    expect(allychainBondInfo.toHuman()["account"]).to.equal(GENESIS_ACCOUNT);
+    expect(allychainBondInfo.toHuman()["account"]).to.equal(GENESIS_ACCOUNT.toLowerCase());
     expect(allychainBondInfo.toHuman()["percent"]).to.equal("30.00%");
   });
 });

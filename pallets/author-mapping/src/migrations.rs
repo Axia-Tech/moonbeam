@@ -22,7 +22,6 @@ use frame_support::{
 	weights::Weight,
 	Twox64Concat,
 };
-use nimbus_primitives::NimbusId;
 
 use sp_std::convert::TryInto;
 //TODO sometimes this is unused, sometimes its necessary
@@ -38,9 +37,9 @@ impl<T: Config> OnRuntimeUpgrade for TwoXToBlake<T> {
 		let storage_item_prefix: &[u8] = b"MappingWithDeposit";
 
 		// Read all the data into memory.
-		// https://crates.axiacoin.network/frame_support/storage/migration/fn.storage_key_iter.html
+		// https://crates.axia-tech.io/frame_support/storage/migration/fn.storage_key_iter.html
 		let stored_data: Vec<_> = storage_key_iter::<
-			NimbusId,
+			T::AuthorId,
 			RegistrationInfo<T::AccountId, BalanceOf<T>>,
 			Twox64Concat,
 		>(pallet_prefix, storage_item_prefix)
@@ -52,12 +51,12 @@ impl<T: Config> OnRuntimeUpgrade for TwoXToBlake<T> {
 			.expect("There are between 0 and 2**64 mappings stored.");
 
 		// Now remove the old storage
-		// https://crates.axiacoin.network/frame_support/storage/migration/fn.remove_storage_prefix.html
+		// https://crates.axia-tech.io/frame_support/storage/migration/fn.remove_storage_prefix.html
 		remove_storage_prefix(pallet_prefix, storage_item_prefix, &[]);
 
 		// Assert that old storage is empty
 		assert!(storage_key_iter::<
-			NimbusId,
+			T::AuthorId,
 			RegistrationInfo<T::AccountId, BalanceOf<T>>,
 			Twox64Concat,
 		>(pallet_prefix, storage_item_prefix)
@@ -107,7 +106,7 @@ impl<T: Config> OnRuntimeUpgrade for TwoXToBlake<T> {
 		// Read an example pair from old storage and set it aside in temp storage
 		if mapping_count > 0 {
 			let example_pair = storage_key_iter::<
-				NimbusId,
+				T::AuthorId,
 				RegistrationInfo<T::AccountId, BalanceOf<T>>,
 				Twox64Concat,
 			>(pallet_prefix, storage_item_prefix)
@@ -133,7 +132,7 @@ impl<T: Config> OnRuntimeUpgrade for TwoXToBlake<T> {
 		// Check that our example pair is still well-mapped after the migration
 		if new_mapping_count > 0 {
 			let (account, original_info): (
-				NimbusId,
+				T::AuthorId,
 				RegistrationInfo<T::AccountId, BalanceOf<T>>,
 			) = Self::get_temp_storage("example_pair").expect("qed");
 			let migrated_info = MappingWithDeposit::<T>::get(account).expect("qed");

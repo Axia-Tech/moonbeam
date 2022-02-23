@@ -78,9 +78,7 @@ describeDevMoonbeam("AXIA API - Transfers", (context) => {
 
   it("should appear in events", async function () {
     const signedBlock = await context.axiaApi.rpc.chain.getBlock();
-    const allRecords = await context.axiaApi.query.system.events.at(
-      signedBlock.block.header.hash
-    );
+    const allRecords = await context.axiaApi.query.system.events.at(signedBlock.block.header.hash);
 
     // map between the extrinsics and events
     signedBlock.block.extrinsics.forEach(({ method: { method, section } }, index) => {

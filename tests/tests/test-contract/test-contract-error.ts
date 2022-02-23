@@ -1,7 +1,6 @@
 import { expect } from "chai";
 
 import { TransactionReceipt } from "web3-core";
-import { verifyLatestBlockFees } from "../../util/block";
 import { describeDevMoonbeam } from "../../util/setup-dev-tests";
 
 import { createContract, createContractExecution } from "../../util/transactions";
@@ -41,29 +40,5 @@ describeDevMoonbeam("Contract loop error", (context) => {
       txResults[1].result
     );
     expect(receipt.status).to.eq(false);
-  });
-});
-
-describeDevMoonbeam("Contract loop error - check fees", (context) => {
-  it("should fail with OutOfGas on infinite loop transaction - check fees", async function () {
-    const { contract, rawTx } = await createContract(context.web3, "InfiniteContract");
-    const infiniteTx = await createContractExecution(
-      context.web3,
-      {
-        contract,
-        contractCall: contract.methods.infinite(),
-      },
-      { nonce: 1 }
-    );
-
-    await context.createBlock({
-      transactions: [rawTx],
-    });
-
-    await context.createBlock({
-      transactions: [infiniteTx],
-    });
-
-    await verifyLatestBlockFees(context.axiaApi, expect);
   });
 });

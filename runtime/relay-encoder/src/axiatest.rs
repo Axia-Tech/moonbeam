@@ -15,7 +15,7 @@
 // along with Moonbeam.  If not, see <http://www.gnu.org/licenses/>.
 
 // We want to avoid including the betanet-runtime here.
-// TODO: whenever a conclusion is taken from https://github.com/axia-tech/axlib/issues/8158
+// TODO: whenever a conclusion is taken from https://github.com/axia-techtech/axlib/issues/8158
 
 use axia_scale_codec::{Decode, Encode};
 use sp_runtime::traits::{AccountIdLookup, StaticLookup};

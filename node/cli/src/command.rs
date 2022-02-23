@@ -518,11 +518,6 @@ pub fn run() -> Result<()> {
 					#[cfg(not(feature = "moonbase-native"))]
 					_ => panic!("invalid chain spec"),
 				}
-			} else if cfg!(feature = "moonbase-runtime-benchmarks") {
-				let runner = cli.create_runner(cmd)?;
-				return runner.sync_run(|config| {
-					cmd.run::<service::moonbase_runtime::Block, service::MoonbaseExecutor>(config)
-				});
 			} else {
 				Err("Benchmarking wasn't enabled when building the node. \
 				You can enable it with `--features runtime-benchmarks`."
@@ -539,7 +534,7 @@ pub fn run() -> Result<()> {
 					runner.async_run(|config| {
 						let registry = config.prometheus_config.as_ref().map(|cfg| &cfg.registry);
 						let task_manager =
-							sc_service::TaskManager::new(config.tokio_handle.clone(), registry)
+							sc_service::TaskManager::new(config.task_executor.clone(), registry)
 								.map_err(|e| {
 									sc_cli::Error::Service(sc_service::Error::Prometheus(e))
 								})?;
@@ -554,7 +549,7 @@ pub fn run() -> Result<()> {
 				spec if spec.is_moonbeam() => runner.async_run(|config| {
 					let registry = config.prometheus_config.as_ref().map(|cfg| &cfg.registry);
 					let task_manager =
-						sc_service::TaskManager::new(config.tokio_handle.clone(), registry)
+						sc_service::TaskManager::new(config.task_executor.clone(), registry)
 							.map_err(|e| {
 								sc_cli::Error::Service(sc_service::Error::Prometheus(e))
 							})?;
@@ -573,7 +568,7 @@ pub fn run() -> Result<()> {
 						// manager to do `async_run`.
 						let registry = config.prometheus_config.as_ref().map(|cfg| &cfg.registry);
 						let task_manager =
-							sc_service::TaskManager::new(config.tokio_handle.clone(), registry)
+							sc_service::TaskManager::new(config.task_executor.clone(), registry)
 								.map_err(|e| {
 									sc_cli::Error::Service(sc_service::Error::Prometheus(e))
 								})?;

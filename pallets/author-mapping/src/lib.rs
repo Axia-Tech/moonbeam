@@ -45,7 +45,7 @@ pub mod pallet {
 	use frame_support::pallet_prelude::*;
 	use frame_support::traits::{Currency, ReservableCurrency};
 	use frame_system::pallet_prelude::*;
-	use nimbus_primitives::{AccountLookup, NimbusId};
+	use nimbus_primitives::AccountLookup;
 
 	pub type BalanceOf<T> = <<T as Config>::DepositCurrency as Currency<
 		<T as frame_system::Config>::AccountId,
@@ -94,14 +94,14 @@ pub mod pallet {
 	#[pallet::generate_deposit(pub(crate) fn deposit_event)]
 	pub enum Event<T: Config> {
 		/// An AuthorId has been registered and mapped to an AccountId.
-		AuthorRegistered(NimbusId, T::AccountId),
+		AuthorRegistered(T::AuthorId, T::AccountId),
 		/// An AuthorId has been de-registered, and its AccountId mapping removed.
-		AuthorDeRegistered(NimbusId),
+		AuthorDeRegistered(T::AuthorId),
 		/// An AuthorId has been registered, replacing a previous registration and its mapping.
-		AuthorRotated(NimbusId, T::AccountId),
+		AuthorRotated(T::AuthorId, T::AccountId),
 		/// An AuthorId has been forcibly deregistered after not being rotated or cleaned up.
 		/// The reporteing account has been rewarded accordingly.
-		DefunctAuthorBusted(NimbusId, T::AccountId),
+		DefunctAuthorBusted(T::AuthorId, T::AccountId),
 	}
 
 	#[pallet::call]
@@ -111,7 +111,7 @@ pub mod pallet {
 		/// Users who have been (or will soon be) elected active collators in staking,
 		/// should submit this extrinsic to have their blocks accepted and earn rewards.
 		#[pallet::weight(<T as Config>::WeightInfo::add_association())]
-		pub fn add_association(origin: OriginFor<T>, author_id: NimbusId) -> DispatchResult {
+		pub fn add_association(origin: OriginFor<T>, author_id: T::AuthorId) -> DispatchResult {
 			let account_id = ensure_signed(origin)?;
 
 			ensure!(
@@ -133,8 +133,8 @@ pub mod pallet {
 		#[pallet::weight(<T as Config>::WeightInfo::update_association())]
 		pub fn update_association(
 			origin: OriginFor<T>,
-			old_author_id: NimbusId,
-			new_author_id: NimbusId,
+			old_author_id: T::AuthorId,
+			new_author_id: T::AuthorId,
 		) -> DispatchResult {
 			let account_id = ensure_signed(origin)?;
 
@@ -161,7 +161,7 @@ pub mod pallet {
 		#[pallet::weight(<T as Config>::WeightInfo::clear_association())]
 		pub fn clear_association(
 			origin: OriginFor<T>,
-			author_id: NimbusId,
+			author_id: T::AuthorId,
 		) -> DispatchResultWithPostInfo {
 			let account_id = ensure_signed(origin)?;
 
@@ -208,7 +208,7 @@ pub mod pallet {
 		// #[pallet::weight(0)]
 		// pub fn narc_defunct_association(
 		// 	origin: OriginFor<T>,
-		// 	author_id: NimbusId,
+		// 	author_id: T::AuthorId,
 		// ) -> DispatchResult {
 		// 	todo!()
 		// }
@@ -216,7 +216,7 @@ pub mod pallet {
 
 	impl<T: Config> Pallet<T> {
 		pub fn enact_registration(
-			author_id: &NimbusId,
+			author_id: &T::AuthorId,
 			account_id: &T::AccountId,
 		) -> DispatchResult {
 			let deposit = T::DepositAmount::get();
@@ -242,7 +242,7 @@ pub mod pallet {
 	pub type MappingWithDeposit<T: Config> = StorageMap<
 		_,
 		Blake2_128Concat,
-		NimbusId,
+		T::AuthorId,
 		RegistrationInfo<T::AccountId, BalanceOf<T>>,
 		OptionQuery,
 	>;
@@ -251,7 +251,7 @@ pub mod pallet {
 	/// Genesis config for author mapping pallet
 	pub struct GenesisConfig<T: Config> {
 		/// The associations that should exist at chain genesis
-		pub mappings: Vec<(NimbusId, T::AccountId)>,
+		pub mappings: Vec<(T::AuthorId, T::AccountId)>,
 	}
 
 	#[cfg(feature = "std")]
@@ -272,9 +272,8 @@ pub mod pallet {
 		}
 	}
 
-	// axia:help
-	impl<T: Config> AccountLookup<T::AccountId> for Pallet<T> {
-		fn lookup_account(author: &NimbusId) -> Option<T::AccountId> {
+	impl<T: Config> AccountLookup<T::AuthorId, T::AccountId> for Pallet<T> {
+		fn lookup_account(author: &T::AuthorId) -> Option<T::AccountId> {
 			Self::account_id_of(author)
 		}
 	}
@@ -282,7 +281,7 @@ pub mod pallet {
 	impl<T: Config> Pallet<T> {
 		/// A helper function to lookup the account id associated with the given author id. This is
 		/// the primary lookup that this pallet is responsible for.
-		pub fn account_id_of(author_id: &NimbusId) -> Option<T::AccountId> {
+		pub fn account_id_of(author_id: &T::AuthorId) -> Option<T::AccountId> {
 			Self::account_and_deposit_of(author_id).map(|info| info.account)
 		}
 	}

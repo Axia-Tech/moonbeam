@@ -12,9 +12,7 @@ describeDevMoonbeam("Balance extrinsics", (context) => {
 
     const blockHash = await context.axiaApi.rpc.chain.getBlockHash(1);
     const signedBlock = await context.axiaApi.rpc.chain.getBlock(blockHash);
-    const allRecords = await context.axiaApi.query.system.events.at(
-      signedBlock.block.header.hash
-    );
+    const allRecords = await context.axiaApi.query.system.events.at(signedBlock.block.header.hash);
 
     // map between the extrinsics and events
     signedBlock.block.extrinsics.forEach(({ method: { method, section } }, index) => {

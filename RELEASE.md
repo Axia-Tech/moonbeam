@@ -6,7 +6,7 @@
 
 ### Notes
 
-- The `master` branch must refer to frontier `axiatech/frontier/master` or
+- The `master` branch must refer to frontier `axia-techtech/frontier/master` or
   `axia-tech/frontier/vX.X-hotfixes`
 
 ### Pre-Release Checklist

@@ -1,6 +1,6 @@
 
 # AXIA_BINARY='../axia/target/release/axia'
-AXIA_BINARY='docker run axia/axia:v0.9.1'
+AXIA_BINARY='docker run axia-tech/axia:v0.9.1'
 
 if [ -z "$MNEMONIC" ]; then
   MNEMONIC=`$AXIA_BINARY key generate -w 24 --output-type Json | jq -r '.secretPhrase'`

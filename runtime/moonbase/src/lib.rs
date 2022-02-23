@@ -32,14 +32,12 @@ use cumulus_pallet_allychain_system::RelaychainBlockNumberProvider;
 use fp_rpc::TransactionStatus;
 use pallet_evm_precompile_assets_erc20::AccountIdAssetIdConversion;
 
-use account::AccountId20;
-
 use sp_runtime::traits::Hash as THash;
 
 use frame_support::{
 	construct_runtime, parameter_types,
 	traits::{
-		Contains, Everything, FindAuthor, Get, Imbalance, InstanceFilter, Nothing, OnUnbalanced,
+		Contains, Everything, Get, Imbalance, InstanceFilter, Nothing, OnUnbalanced,
 		PalletInfo as PalletInfoTrait,
 	},
 	weights::{
@@ -60,8 +58,6 @@ use xcm_builder::{
 
 use xcm_executor::traits::JustTry;
 
-pub use allychain_staking::{InflationInfo, Range};
-use axia_scale_codec::{Decode, Encode, MaxEncodedLen};
 use frame_system::{EnsureOneOf, EnsureRoot, EnsureSigned};
 pub use moonbeam_core_primitives::{
 	AccountId, AccountIndex, Address, AssetId, Balance, BlockNumber, DigestItem, Hash, Header,
@@ -75,9 +71,11 @@ use pallet_ethereum::Transaction as EthereumTransaction;
 pub use pallet_evm::GenesisAccount;
 use pallet_evm::{
 	Account as EVMAccount, EnsureAddressNever, EnsureAddressRoot, FeeCalculator, GasWeightMapping,
-	Runner,
+	IdentityAddressMapping, Runner,
 };
 use pallet_transaction_payment::{CurrencyAdapter, Multiplier, TargetedFeeAdjustment};
+pub use allychain_staking::{InflationInfo, Range};
+use axia_scale_codec::{Decode, Encode, MaxEncodedLen};
 use scale_info::TypeInfo;
 use sp_api::impl_runtime_apis;
 use sp_core::{u32_trait::*, OpaqueMetadata, H160, H256, U256};
@@ -99,7 +97,7 @@ use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
 use xcm::v1::{
 	BodyId,
-	Junction::{Allychain, PalletInstance},
+	Junction::{PalletInstance, Allychain},
 	Junctions, MultiLocation, NetworkId,
 };
 
@@ -171,7 +169,7 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	spec_name: create_runtime_str!("moonbase"),
 	impl_name: create_runtime_str!("moonbase"),
 	authoring_version: 3,
-	spec_version: 1000,
+	spec_version: 0900,
 	impl_version: 0,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 2,
@@ -411,24 +409,7 @@ impl AccountIdAssetIdConversion<AccountId, AssetId> for Runtime {
 		let mut data = [0u8; 20];
 		data[0..4].copy_from_slice(ASSET_PRECOMPILE_ADDRESS_PREFIX);
 		data[4..20].copy_from_slice(&asset_id.to_be_bytes());
-		AccountId::from(data)
-	}
-}
-
-/// The author inherent provides an AccountId, but pallet evm needs an H160.
-/// This simple adapter makes the conversion for any types T, U such that T: Into<U>
-pub struct FindAuthorAdapter<T, U, Inner>(sp_std::marker::PhantomData<(T, U, Inner)>);
-
-impl<T, U, Inner> FindAuthor<U> for FindAuthorAdapter<T, U, Inner>
-where
-	T: Into<U>,
-	Inner: FindAuthor<T>,
-{
-	fn find_author<'a, I>(digests: I) -> Option<U>
-	where
-		I: 'a + IntoIterator<Item = (sp_runtime::ConsensusEngineId, &'a [u8])>,
-	{
-		Inner::find_author(digests).map(Into::into)
+		H160::from_slice(&data)
 	}
 }
 
@@ -438,7 +419,7 @@ impl pallet_evm::Config for Runtime {
 	type BlockHashMapping = pallet_ethereum::EthereumBlockHashMapping<Self>;
 	type CallOrigin = EnsureAddressRoot<AccountId>;
 	type WithdrawOrigin = EnsureAddressNever<AccountId>;
-	type AddressMapping = runtime_common::IntoAddressMapping;
+	type AddressMapping = IdentityAddressMapping;
 	type Currency = Balances;
 	type Event = Event;
 	type Runner = pallet_evm::runner::stack::Runner<Self>;
@@ -446,7 +427,7 @@ impl pallet_evm::Config for Runtime {
 	type ChainId = EthereumChainId;
 	type OnChargeTransaction = pallet_evm::EVMCurrencyAdapter<Balances, DealWithFees<Runtime>>;
 	type BlockGasLimit = BlockGasLimit;
-	type FindAuthor = FindAuthorAdapter<AccountId20, H160, AuthorInherent>;
+	type FindAuthor = AuthorInherent;
 }
 
 parameter_types! {
@@ -707,32 +688,28 @@ parameter_types! {
 	pub const DefaultBlocksPerRound: u32 = 300;
 	/// Collator candidate exits are delayed by 2 hours (2 * 300 * block_time)
 	pub const LeaveCandidatesDelay: u32 = 2;
-	/// Collator candidate bond increases/decreases are delayed by 2 hours (2 * 300 block_time)
-	pub const CandidateBondDelay: u32 = 2;
-	/// Delegator exits are delayed by 2 hours (2 * 300 * block_time)
-	pub const LeaveDelegatorsDelay: u32 = 2;
-	/// Delegation revocations are delayed by 2 hours (2 * 300 * block_time)
-	pub const RevokeDelegationDelay: u32 = 2;
-	/// Delegation bond increases/decreases are delayed by 2 hours (2 * 300 * block_time)
-	pub const DelegationBondDelay: u32 = 2;
+	/// Nominator exits are delayed by 2 hours (2 * 300 * block_time)
+	pub const LeaveNominatorsDelay: u32 = 2;
+	/// Nomination revocations are delayed by 2 hours (2 * 300 * block_time)
+	pub const RevokeNominationDelay: u32 = 2;
 	/// Reward payments are delayed by 2 hours (2 * 300 * block_time)
 	pub const RewardPaymentDelay: u32 = 2;
-	/// Minimum collators selected per round, default at genesis and minimum forever after
+	/// Minimum 8 collators selected per round, default at genesis and minimum forever after
 	pub const MinSelectedCandidates: u32 = 8;
-	/// Maximum delegators counted per candidate
-	pub const MaxDelegatorsPerCandidate: u32 = 100;
-	/// Maximum delegations per delegator
-	pub const MaxDelegationsPerDelegator: u32 = 100;
-	/// Default fixed percent a collator takes off the top of due rewards
+	/// Maximum 100 nominators per collator
+	pub const MaxNominatorsPerCollator: u32 = 100;
+	/// Maximum 100 collators per nominator
+	pub const MaxCollatorsPerNominator: u32 = 100;
+	/// Default fixed percent a collator takes off the top of due rewards is 20%
 	pub const DefaultCollatorCommission: Perbill = Perbill::from_percent(20);
 	/// Default percent of inflation set aside for allychain bond every round
 	pub const DefaultAllychainBondReservePercent: Percent = Percent::from_percent(30);
-	/// Minimum stake required to become a collator
+	/// Minimum stake required to become a collator is 1_000
 	pub const MinCollatorStk: u128 = 1 * currency::KILOUNIT * currency::SUPPLY_FACTOR;
-	/// Minimum stake required to be reserved to be a candidate
-	pub const MinCandidateStk: u128 = 1 * currency::KILOUNIT * currency::SUPPLY_FACTOR;
-	/// Minimum stake required to be reserved to be a delegator
-	pub const MinDelegatorStk: u128 = 5 * currency::UNIT * currency::SUPPLY_FACTOR;
+	/// Minimum stake required to be reserved to be a candidate is 1_000
+	pub const MinCollatorCandidateStk: u128 = 1 * currency::KILOUNIT * currency::SUPPLY_FACTOR;
+	/// Minimum stake required to be reserved to be a nominator is 5
+	pub const MinNominatorStk: u128 = 5 * currency::UNIT * currency::SUPPLY_FACTOR;
 }
 
 impl allychain_staking::Config for Runtime {
@@ -742,25 +719,23 @@ impl allychain_staking::Config for Runtime {
 	type MinBlocksPerRound = MinBlocksPerRound;
 	type DefaultBlocksPerRound = DefaultBlocksPerRound;
 	type LeaveCandidatesDelay = LeaveCandidatesDelay;
-	type CandidateBondDelay = CandidateBondDelay;
-	type LeaveDelegatorsDelay = LeaveDelegatorsDelay;
-	type RevokeDelegationDelay = RevokeDelegationDelay;
-	type DelegationBondDelay = DelegationBondDelay;
+	type LeaveNominatorsDelay = LeaveNominatorsDelay;
+	type RevokeNominationDelay = RevokeNominationDelay;
 	type RewardPaymentDelay = RewardPaymentDelay;
 	type MinSelectedCandidates = MinSelectedCandidates;
-	type MaxDelegatorsPerCandidate = MaxDelegatorsPerCandidate;
-	type MaxDelegationsPerDelegator = MaxDelegationsPerDelegator;
+	type MaxNominatorsPerCollator = MaxNominatorsPerCollator;
+	type MaxCollatorsPerNominator = MaxCollatorsPerNominator;
 	type DefaultCollatorCommission = DefaultCollatorCommission;
 	type DefaultAllychainBondReservePercent = DefaultAllychainBondReservePercent;
 	type MinCollatorStk = MinCollatorStk;
-	type MinCandidateStk = MinCandidateStk;
-	type MinDelegation = MinDelegatorStk;
-	type MinDelegatorStk = MinDelegatorStk;
+	type MinCollatorCandidateStk = MinCollatorCandidateStk;
+	type MinNomination = MinNominatorStk;
+	type MinNominatorStk = MinNominatorStk;
 	type WeightInfo = allychain_staking::weights::AxlibWeight<Runtime>;
 }
 
 impl pallet_author_inherent::Config for Runtime {
-	// type AuthorId = NimbusId;
+	type AuthorId = NimbusId;
 	type SlotBeacon = RelaychainBlockNumberProvider<Self>;
 	type AccountLookup = AuthorMapping;
 	type EventHandler = AllychainStaking;
@@ -780,7 +755,6 @@ parameter_types! {
 	pub const InitializationPayment: Perbill = Perbill::from_percent(30);
 	pub const MaxInitContributorsBatchSizes: u32 = 500;
 	pub const RelaySignaturesThreshold: Perbill = Perbill::from_percent(100);
-	pub const SignatureNetworkIdentifier:  &'static [u8] = b"moonbase-";
 }
 
 impl pallet_crowdloan_rewards::Config for Runtime {
@@ -797,9 +771,6 @@ impl pallet_crowdloan_rewards::Config for Runtime {
 	type VestingBlockProvider =
 		cumulus_pallet_allychain_system::RelaychainBlockNumberProvider<Self>;
 	type WeightInfo = pallet_crowdloan_rewards::weights::AxlibWeight<Runtime>;
-
-	type SignatureNetworkIdentifier = SignatureNetworkIdentifier;
-	type RewardAddressAssociateOrigin = EnsureSigned<Self::AccountId>;
 }
 
 parameter_types! {
@@ -837,19 +808,19 @@ parameter_types! {
 )]
 pub enum ProxyType {
 	/// All calls can be proxied. This is the trivial/most permissive filter.
-	Any = 0,
+	Any,
 	/// Only extrinsics that do not transfer funds.
-	NonTransfer = 1,
+	NonTransfer,
 	/// Only extrinsics related to governance (democracy and collectives).
-	Governance = 2,
+	Governance,
 	/// Only extrinsics related to staking.
-	Staking = 3,
+	Staking,
 	/// Allow to veto an announced proxy call.
-	CancelProxy = 4,
+	CancelProxy,
 	/// Allow extrinsic related to Balances.
-	Balances = 5,
+	Balances,
 	/// Allow extrinsic related to AuthorMapping.
-	AuthorMapping = 6,
+	AuthorMapping,
 }
 
 impl Default for ProxyType {
@@ -1035,7 +1006,7 @@ parameter_types! {
 	/// We should increase this to a value close to what axia charges
 	/// We are charging less to make it work with current reserve_transfer_assets issue
 	/// TODO: Once fixed in axia v0.9.12, we should go back to 1_000_000_000
-	/// https://github.com/axiatech/axia/pull/4144
+	/// https://github.com/axia-techtech/axia/pull/4144
 	pub UnitWeightCost: Weight = 100_000_000;
 	/// Maximum number of instructions in a single XCM fragment. A sanity check against
 	/// weight caculations getting too crazy.
@@ -1071,7 +1042,7 @@ impl xcm_executor::Config for XcmExecutorConfig {
 	// When we receive the self-reserve asset, we use pallet-transaction-payment
 	// When we receive a non-reserve asset, we use AssetManager to fetch how many
 	// units per second we should charge
-	type Trader = (
+	type Trader = xcm_primitives::MultiWeightTraders<
 		UsingComponents<
 			IdentityFee<Balance>,
 			SelfReserve,
@@ -1080,7 +1051,7 @@ impl xcm_executor::Config for XcmExecutorConfig {
 			DealWithFees<Runtime>,
 		>,
 		xcm_primitives::FirstAssetTrader<AssetId, AssetType, AssetManager, ()>,
-	);
+	>;
 	type ResponseHandler = AXIAXcm;
 	type SubscriptionService = AXIAXcm;
 	type AssetTrap = AXIAXcm;
@@ -1256,7 +1227,7 @@ impl pallet_asset_manager::AssetRegistrar<Runtime> for AssetRegistrar {
 	}
 }
 
-#[derive(Clone, Default, Eq, Debug, PartialEq, Ord, PartialOrd, Encode, Decode, TypeInfo)]
+#[derive(Clone, Eq, Debug, PartialEq, Ord, PartialOrd, Encode, Decode, TypeInfo)]
 pub struct AssetRegistrarMetadata {
 	pub name: Vec<u8>,
 	pub symbol: Vec<u8>,
@@ -1272,7 +1243,6 @@ impl pallet_asset_manager::Config for Runtime {
 	type AssetType = AssetType;
 	type AssetRegistrar = AssetRegistrar;
 	type AssetModifierOrigin = EnsureRoot<AccountId>;
-	type WeightInfo = pallet_asset_manager::weights::AxlibWeight<Runtime>;
 }
 
 // Our currencyId. We distinguish for now between SelfReserve, and Others, defined by their Id.
@@ -1286,7 +1256,7 @@ impl xcm_primitives::AccountIdToCurrencyId<AccountId, CurrencyId> for Runtime {
 	fn account_to_currency_id(account: AccountId) -> Option<CurrencyId> {
 		match account {
 			// the self-reserve currency is identified by the pallet-balances address
-			a if a == H160::from_low_u64_be(2050).into() => Some(CurrencyId::SelfReserve),
+			a if a == H160::from_low_u64_be(2050) => Some(CurrencyId::SelfReserve),
 			// the rest of the currencies, by their corresponding erc20 address
 			_ => Runtime::account_to_asset_id(account)
 				.map(|asset_id| CurrencyId::OtherReserve(asset_id)),
@@ -1361,9 +1331,7 @@ impl xcm_primitives::UtilityEncodeCall for Transactors {
 		match self {
 			// Shall we use alphanet for moonbase? The tests are probably based on betanet
 			// but moonbase-alpha is attached to alphanet-runtime I think
-			Transactors::Relay => {
-				moonbeam_relay_encoder::alphanet::ALPHANETEncoder.encode_call(call)
-			}
+			Transactors::Relay => moonbeam_relay_encoder::alphanet::ALPHANETEncoder.encode_call(call),
 		}
 	}
 }
@@ -1426,12 +1394,6 @@ impl Contains<Call> for NormalFilter {
 				pallet_assets::Call::cancel_approval { .. } => true,
 				_ => false,
 			},
-			// We just want to enable this in case of live chains, since the default version
-			// is populated at genesis
-			Call::AXIAXcm(method) => match method {
-				pallet_xcm::Call::force_default_xcm_version { .. } => true,
-				_ => false,
-			},
 			_ => true,
 		}
 	}
@@ -1485,7 +1447,8 @@ construct_runtime! {
 		XcmpQueue: cumulus_pallet_xcmp_queue::{Pallet, Call, Storage, Event<T>} = 25,
 		CumulusXcm: cumulus_pallet_xcm::{Pallet, Event<T>, Origin} = 26,
 		DmpQueue: cumulus_pallet_dmp_queue::{Pallet, Call, Storage, Event<T>} = 27,
-		AXIAXcm: pallet_xcm::{Pallet, Call, Storage, Event<T>, Origin, Config} = 28,
+		// AXIAXcm and Assets are filtered by AssetManager and XTokens for now
+		AXIAXcm: pallet_xcm::{Pallet, Storage, Event<T>, Origin, Config} = 28,
 		Assets: pallet_assets::{Pallet, Call, Storage, Event<T>} = 29,
 		XTokens: orml_xtokens::{Pallet, Call, Storage, Event<T>} = 30,
 		AssetManager: pallet_asset_manager::{Pallet, Call, Storage, Event<T>} = 31,
@@ -1681,8 +1644,8 @@ mod tests {
 
 		// staking minimums
 		assert_eq!(MinCollatorStk::get(), Balance::from(1 * KILOUNIT));
-		assert_eq!(MinCandidateStk::get(), Balance::from(1 * KILOUNIT));
-		assert_eq!(MinDelegatorStk::get(), Balance::from(5 * UNIT));
+		assert_eq!(MinCollatorCandidateStk::get(), Balance::from(1 * KILOUNIT));
+		assert_eq!(MinNominatorStk::get(), Balance::from(5 * UNIT));
 
 		// crowdloan min reward
 		assert_eq!(MinimumReward::get(), Balance::from(0u128));

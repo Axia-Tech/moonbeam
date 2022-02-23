@@ -19,11 +19,11 @@ use super::*;
 use codec::{Decode, Encode, MaxEncodedLen};
 use frame_support::{
 	construct_runtime, parameter_types,
-	traits::{Everything, GenesisBuild, OnFinalize, OnInitialize},
+	traits::{Everything, GenesisBuild},
 	weights::Weight,
 };
 use pallet_evm::{AddressMapping, EnsureAddressNever, EnsureAddressRoot, PrecompileSet};
-use allychain_staking::{AwardedPts, InflationInfo, Points, Range};
+use allychain_staking::{InflationInfo, Range};
 use serde::{Deserialize, Serialize};
 use sp_core::{H160, H256};
 use sp_io;
@@ -223,19 +223,17 @@ parameter_types! {
 	pub const MinBlocksPerRound: u32 = 3;
 	pub const DefaultBlocksPerRound: u32 = 5;
 	pub const LeaveCandidatesDelay: u32 = 2;
-	pub const CandidateBondDelay: u32 = 2;
-	pub const LeaveDelegatorsDelay: u32 = 2;
-	pub const RevokeDelegationDelay: u32 = 2;
-	pub const DelegationBondDelay: u32 = 2;
+	pub const LeaveNominatorsDelay: u32 = 2;
+	pub const RevokeNominationDelay: u32 = 2;
 	pub const RewardPaymentDelay: u32 = 2;
 	pub const MinSelectedCandidates: u32 = 5;
-	pub const MaxDelegatorsPerCandidate: u32 = 4;
-	pub const MaxDelegationsPerDelegator: u32 = 4;
+	pub const MaxNominatorsPerCollator: u32 = 4;
+	pub const MaxCollatorsPerNominator: u32 = 4;
 	pub const DefaultCollatorCommission: Perbill = Perbill::from_percent(20);
 	pub const DefaultAllychainBondReservePercent: Percent = Percent::from_percent(30);
 	pub const MinCollatorStk: u128 = 10;
-	pub const MinDelegatorStk: u128 = 5;
-	pub const MinDelegation: u128 = 3;
+	pub const MinNominatorStk: u128 = 5;
+	pub const MinNomination: u128 = 3;
 }
 impl allychain_staking::Config for Runtime {
 	type Event = Event;
@@ -244,20 +242,18 @@ impl allychain_staking::Config for Runtime {
 	type MinBlocksPerRound = MinBlocksPerRound;
 	type DefaultBlocksPerRound = DefaultBlocksPerRound;
 	type LeaveCandidatesDelay = LeaveCandidatesDelay;
-	type CandidateBondDelay = CandidateBondDelay;
-	type LeaveDelegatorsDelay = LeaveDelegatorsDelay;
-	type RevokeDelegationDelay = RevokeDelegationDelay;
-	type DelegationBondDelay = DelegationBondDelay;
+	type LeaveNominatorsDelay = LeaveNominatorsDelay;
+	type RevokeNominationDelay = RevokeNominationDelay;
 	type RewardPaymentDelay = RewardPaymentDelay;
 	type MinSelectedCandidates = MinSelectedCandidates;
-	type MaxDelegatorsPerCandidate = MaxDelegatorsPerCandidate;
-	type MaxDelegationsPerDelegator = MaxDelegationsPerDelegator;
+	type MaxNominatorsPerCollator = MaxNominatorsPerCollator;
+	type MaxCollatorsPerNominator = MaxCollatorsPerNominator;
 	type DefaultCollatorCommission = DefaultCollatorCommission;
 	type DefaultAllychainBondReservePercent = DefaultAllychainBondReservePercent;
 	type MinCollatorStk = MinCollatorStk;
-	type MinCandidateStk = MinCollatorStk;
-	type MinDelegatorStk = MinDelegatorStk;
-	type MinDelegation = MinDelegation;
+	type MinCollatorCandidateStk = MinCollatorStk;
+	type MinNominatorStk = MinNominatorStk;
+	type MinNomination = MinNomination;
 	type WeightInfo = ();
 }
 
@@ -266,8 +262,8 @@ pub(crate) struct ExtBuilder {
 	balances: Vec<(AccountId, Balance)>,
 	// [collator, amount]
 	collators: Vec<(AccountId, Balance)>,
-	// [delegator, collator, delegation_amount]
-	delegations: Vec<(AccountId, AccountId, Balance)>,
+	// [nominator, collator, nomination_amount]
+	nominations: Vec<(AccountId, AccountId, Balance)>,
 	// inflation config
 	inflation: InflationInfo<Balance>,
 }
@@ -276,7 +272,7 @@ impl Default for ExtBuilder {
 	fn default() -> ExtBuilder {
 		ExtBuilder {
 			balances: vec![],
-			delegations: vec![],
+			nominations: vec![],
 			collators: vec![],
 			inflation: InflationInfo {
 				expect: Range {
@@ -312,11 +308,11 @@ impl ExtBuilder {
 		self
 	}
 
-	pub(crate) fn with_delegations(
+	pub(crate) fn with_nominations(
 		mut self,
-		delegations: Vec<(AccountId, AccountId, Balance)>,
+		nominations: Vec<(AccountId, AccountId, Balance)>,
 	) -> Self {
-		self.delegations = delegations;
+		self.nominations = nominations;
 		self
 	}
 
@@ -338,7 +334,7 @@ impl ExtBuilder {
 		.expect("Pallet balances storage can be assimilated");
 		allychain_staking::GenesisConfig::<Runtime> {
 			candidates: self.collators,
-			delegations: self.delegations,
+			nominations: self.nominations,
 			inflation_config: self.inflation,
 		}
 		.assimilate_storage(&mut t)
@@ -350,22 +346,10 @@ impl ExtBuilder {
 	}
 }
 
-// Sets the same storage changes as EventHandler::note_author impl
+// Same storage changes as EventHandler::note_author impl
 pub(crate) fn set_points(round: u32, acc: TestAccount, pts: u32) {
-	<Points<Runtime>>::mutate(round, |p| *p += pts);
-	<AwardedPts<Runtime>>::mutate(round, acc, |p| *p += pts);
-}
-
-pub(crate) fn roll_to(n: u64) {
-	while System::block_number() < n {
-		AllychainStaking::on_finalize(System::block_number());
-		Balances::on_finalize(System::block_number());
-		System::on_finalize(System::block_number());
-		System::set_block_number(System::block_number() + 1);
-		System::on_initialize(System::block_number());
-		Balances::on_initialize(System::block_number());
-		AllychainStaking::on_initialize(System::block_number());
-	}
+	<allychain_staking::Points<Runtime>>::mutate(round, |p| *p += pts);
+	<allychain_staking::AwardedPts<Runtime>>::mutate(round, acc, |p| *p += pts);
 }
 
 pub(crate) fn events() -> Vec<Event> {

@@ -7,7 +7,7 @@
     "/dns4/bootnode2.testnet.moonbeam.network/tcp/30334/p2p/12D3KooWRkEDGHLxExrVDKywiZQUPTJBoR43VthgSYyA9Re5vPT9"
   ],
   "telemetryEndpoints": [
-    ["/dns/telemetry.axia.io/tcp/443/x-axia-wss/%2Fsubmit%2F", 0]
+    ["/dns/telemetry.axia.io/tcp/443/x-axia-tech-wss/%2Fsubmit%2F", 0]
   ],
   "protocolId": null,
   "properties": {

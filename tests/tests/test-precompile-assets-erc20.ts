@@ -15,6 +15,7 @@ import Keyring from "@axia/keyring";
 import { getCompiled } from "../util/contracts";
 import { ethers } from "ethers";
 import { createContract, createTransaction } from "../util/transactions";
+import { createTransfer } from "../util/transactions";
 
 const sourceLocationRelay = { parents: 1, interior: "Here" };
 
@@ -28,8 +29,8 @@ interface AssetMetadata {
 }
 
 const relayAssetMetadata: AssetMetadata = {
-  name: "AXC",
-  symbol: "AXC",
+  name: "DOT",
+  symbol: "DOT",
   decimals: new BN(12),
   isFrozen: false,
 };
@@ -54,9 +55,7 @@ async function mockAssetBalance(
     .signAndSend(sudoAccount);
   await context.createBlock();
 
-  let assets = (
-    (await context.axiaApi.query.assetManager.assetIdType(assetId)) as any
-  ).toJSON();
+  let assets = ((await context.axiaApi.query.assetManager.assetIdType(assetId)) as any).toJSON();
   // make sure we created it
   expect(assets["xcm"]["parents"]).to.equal(1);
 
@@ -131,9 +130,8 @@ describeDevMoonbeam(
 
       await mockAssetBalance(context, assetBalance, assetDetails, sudoAccount, assetId, ALITH);
 
-      let beforeAssetBalance = (
-        (await context.axiaApi.query.assets.account(assetId, ALITH)) as any
-      ).balance as BN;
+      let beforeAssetBalance = ((await context.axiaApi.query.assets.account(assetId, ALITH)) as any)
+        .balance as BN;
 
       const contractData = await getCompiled("ERC20Instance");
       iFace = new ethers.utils.Interface(contractData.contract.abi);
@@ -160,7 +158,7 @@ describeDevMoonbeam(
         },
       ]);
 
-      let expected = stringToHex("AXC");
+      let expected = stringToHex("DOT");
       let offset = numberToHex(32).slice(2).padStart(64, "0");
       let length = numberToHex(3).slice(2).padStart(64, "0");
       // Bytes are padded at the end
@@ -186,7 +184,7 @@ describeDevMoonbeam(
         },
       ]);
 
-      let expected = stringToHex("AXC");
+      let expected = stringToHex("DOT");
       let offset = numberToHex(32).slice(2).padStart(64, "0");
       let length = numberToHex(3).slice(2).padStart(64, "0");
       // Bytes are padded at the end
@@ -445,18 +443,11 @@ describeDevMoonbeam(
       expect(receipt.status).to.equal(true);
 
       // Approve amount is null now
-      approvals = (await context.axiaApi.query.assets.approvals(
-        assetId,
-        ALITH,
-        BALTATHAR
-      )) as any;
+      approvals = (await context.axiaApi.query.assets.approvals(assetId, ALITH, BALTATHAR)) as any;
       expect(approvals.isNone).to.eq(true);
 
       // Charleth balance is 1000
-      let charletBalance = (await context.axiaApi.query.assets.account(
-        assetId,
-        CHARLETH
-      )) as any;
+      let charletBalance = (await context.axiaApi.query.assets.account(assetId, CHARLETH)) as any;
       expect(charletBalance.balance.eq(new BN(1000))).to.equal(true);
     });
   },
@@ -541,10 +532,7 @@ describeDevMoonbeam("Precompiles - Assets-ERC20 Wasm", (context) => {
       balance: balance,
     });
 
-    assetId = context.axiaApi.createType(
-      "u128",
-      new BN("42259045809535163221576417993425387648")
-    );
+    assetId = context.axiaApi.createType("u128", new BN("42259045809535163221576417993425387648"));
     const assetDetails = context.axiaApi.createType("PalletAssetsAssetDetails", {
       supply: balance,
     });
@@ -623,11 +611,7 @@ describeDevMoonbeam("Precompiles - Assets-ERC20 Wasm", (context) => {
     expect(receipt.status).to.equal(true);
 
     // Approve amount is null now
-    approvals = (await context.axiaApi.query.assets.approvals(
-      assetId,
-      ALITH,
-      BALTATHAR
-    )) as any;
+    approvals = (await context.axiaApi.query.assets.approvals(assetId, ALITH, BALTATHAR)) as any;
     expect(approvals.isNone).to.eq(true);
 
     // Charleth balance is 1000
@@ -714,10 +698,7 @@ describeDevMoonbeam("Precompiles - Assets-ERC20 Wasm", (context) => {
       balance: balance,
     });
 
-    assetId = context.axiaApi.createType(
-      "u128",
-      new BN("42259045809535163221576417993425387648")
-    );
+    assetId = context.axiaApi.createType("u128", new BN("42259045809535163221576417993425387648"));
     const assetDetails = context.axiaApi.createType("PalletAssetsAssetDetails", {
       supply: balance,
     });
@@ -857,10 +838,7 @@ describeDevMoonbeam("Precompiles - Assets-ERC20 Wasm", (context) => {
       balance: balance,
     });
 
-    assetId = context.axiaApi.createType(
-      "u128",
-      new BN("42259045809535163221576417993425387648")
-    );
+    assetId = context.axiaApi.createType("u128", new BN("42259045809535163221576417993425387648"));
     const assetDetails = context.axiaApi.createType("PalletAssetsAssetDetails", {
       supply: balance,
     });

@@ -1,8 +1,10 @@
 # Tools
 
+_NB: this folder is yarn only_
+
 ## Launching complete network
 
-Based on [axia-launch](https://github.com/axiatech/axia-launch), the tool to launch
+Based on [axia-launch](https://github.com/axia-techtech/axia-launch), the tool to launch
 multiple relay and allychain nodes, the script [launch.ts](./launch.ts) allows to start a complete
 network based on the different version of the runtimes
 
@@ -17,13 +19,13 @@ from the given docker images.
 (Docker is required for using network configurations other than "local")
 
 ```
-npm install
+yarn install
 ```
 
 ### Usage
 
 ```
-npm run launch -- --allychain moonbase-0.11.2
+yarn run launch --allychain moonbase-0.11.2
 ```
 
 The launch script accepts a preconfigured network (default is "local", see further).
@@ -46,9 +48,9 @@ Those are listed directly inside [launch.ts](./launch.ts). Ex:
 It is also possible to specify a binary instead of a docker image. Ex:
 
 ```
-npm run launch -- --allychain local
+yarn run launch --allychain local
 # or
-npm run launch
+yarn run launch
 ```
 
 which uses the configuration (based on latest betanet, you can override using `--relay local`):
@@ -76,7 +78,7 @@ local: {
 See all parameters and possible choices doing
 
 ```
-> npm run launch -- --help
+> npm run launch --help
 
 Usage: launch [args]
 
@@ -112,7 +114,7 @@ Options:
 Ex: _Run only local binaries (with runtime moonriver and relay runtime axiatest)_
 
 ```
-npm run launch -- --allychain-chain moonriver-local --relay local --relay-chain axiatest-local
+npm run launch --allychain-chain moonriver-local --relay local --relay-chain axiatest-local
 ```
 
 (no --allychain defaults to `--allychain local`)
@@ -120,7 +122,7 @@ npm run launch -- --allychain-chain moonriver-local --relay local --relay-chain 
 Ex: _Run alphanet-8.1 with alphanet 9030 runtime_
 
 ```
-npm run launch -- --allychain alphanet-8.1 --relay alphanet-9030
+npm run launch --allychain alphanet-8.1 --relay alphanet-9030
 ```
 
 ### Fast local build
@@ -132,15 +134,15 @@ axia side.
 
 Here is the list of cargo aliases allowing you to compile only some native rutimes:
 
-| command                    | native runtimes                     |
-| -------------------------- | ----------------------------------- |
-| `cargo moonbase`           | `moonbase, alphanet, axia`          |
-| `cargo moonbase-betanet`   | `moonbase, betanet, alphanet, axia` |
-| `cargo moonriver`          | `moonriver, axia`                   |
-| `cargo moonriver-betanet`  | `moonriver, betanet, axia`          |
+| command                  | native runtimes                   |
+| ------------------------ | --------------------------------- |
+| `cargo moonbase`         | `moonbase, alphanet, axia`         |
+| `cargo moonbase-betanet`  | `moonbase, betanet, alphanet, axia` |
+| `cargo moonriver`        | `moonriver, axia`                 |
+| `cargo moonriver-betanet` | `moonriver, betanet, axia`         |
 | `cargo moonriver-axiatest` | `moonriver, axiatest, axia`         |
-| `cargo moonbeam`           | `moonbeam, axia`                    |
-| `cargo moonbeam-betanet`   | `moonbeam, betanet, axia`           |
+| `cargo moonbeam`         | `moonbeam, axia`                  |
+| `cargo moonbeam-betanet`  | `moonbeam, betanet, axia`          |
 
 - The `moonbase` native runtime require `alphanet` native runtime to compile.
 - The `axia` native runtime is always included (This is requirement from axia repo).
@@ -203,7 +205,7 @@ For the default configuration, you can access through axiajs:
 Using script [github/list-pr-labels.ts]:
 
 ```
-npm run list-pull-request-labels -- --from axia-v0.9.4 --to axia-v0.9.5 --repo axiatech/axlib
+npm run list-pull-request-labels -- --from axia-v0.9.4 --to axia-v0.9.5 --repo axia-techtech/axlib
 ```
 
 ### Parameters
@@ -214,7 +216,7 @@ Options:
   --from        commit-sha/tag of range start                [string] [required]
   --to          commit-sha/tag of range end                  [string] [required]
   --repo        which repository to read                     [string] [required]
-                [choices: "axiatech/axlib", "axiatech/axia"]
+                [choices: "axia-techtech/axlib", "axia-techtech/axia"]
   --only-label  filter specific labels (using grep)                      [array]
   --help        Show help                                              [boolean]
 ```
@@ -222,16 +224,16 @@ Options:
 ### Expected output
 
 ```
-> npm run list-pr-labels -- --from axia-v0.9.4 --to axia-v0.9.5 --repo axiatech/axlib --only-label runtime
+> npm run list-pr-labels -- --from axia-v0.9.4 --to axia-v0.9.5 --repo axia-techtech/axlib --only-label runtime
 
-found 55 total commits in https://github.com/axia-tech/axlib/compare/axia-v0.9.4...axia-v0.9.5
+found 55 total commits in https://github.com/axia-techtech/axlib/compare/axia-v0.9.4...axia-v0.9.5
 ===== E1-runtimemigration
-  (axiatech/axlib#9061) Migrate pallet-randomness-collective-flip to pallet attribute macro
+  (axia-techtech/axlib#9061) Migrate pallet-randomness-collective-flip to pallet attribute macro
 ===== B7-runtimenoteworthy
-  (axiatech/axlib#7778) Named reserve
-  (axiatech/axlib#8955) update ss58 type to u16
-  (axiatech/axlib#8909) contracts: Add new `seal_call` that offers new features
-  (axiatech/axlib#9083) Migrate pallet-staking to pallet attribute macro
-  (axiatech/axlib#9085) Enforce pub calls in pallets
-  (axiatech/axlib#8912) staking/election: prolonged era and emergency mode for governance submission.
+  (axia-techtech/axlib#7778) Named reserve
+  (axia-techtech/axlib#8955) update ss58 type to u16
+  (axia-techtech/axlib#8909) contracts: Add new `seal_call` that offers new features
+  (axia-techtech/axlib#9083) Migrate pallet-staking to pallet attribute macro
+  (axia-techtech/axlib#9085) Enforce pub calls in pallets
+  (axia-techtech/axlib#8912) staking/election: prolonged era and emergency mode for governance submission.
 ```

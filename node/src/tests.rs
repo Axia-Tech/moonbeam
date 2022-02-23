@@ -16,9 +16,9 @@
 
 //! An example of doing some integration testing against the complete node in Rust
 //! This approach is similar to our current typescript tests and is inspired by
-//! https://github.com/axiatech/cumulus/blob/master/betanet-allychains/tests/purge_chain_works.rs
+//! https://github.com/axia-techtech/cumulus/blob/master/betanet-allychains/tests/purge_chain_works.rs
 //! However Basti seems dissatisfied with this approach, for reasons I don't fully understand.
-//! https://github.com/axiatech/cumulus/pull/306#discussion_r584166203
+//! https://github.com/axia-techtech/cumulus/pull/306#discussion_r584166203
 
 use assert_cmd::cargo::cargo_bin;
 use std::{

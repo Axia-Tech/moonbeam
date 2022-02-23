@@ -100,19 +100,17 @@ parameter_types! {
 	pub const MinBlocksPerRound: u32 = 3;
 	pub const DefaultBlocksPerRound: u32 = 5;
 	pub const LeaveCandidatesDelay: u32 = 2;
-	pub const CandidateBondDelay: u32 = 2;
-	pub const LeaveDelegatorsDelay: u32 = 2;
-	pub const RevokeDelegationDelay: u32 = 2;
-	pub const DelegationBondDelay: u32 = 2;
+	pub const LeaveNominatorsDelay: u32 = 2;
+	pub const RevokeNominationDelay: u32 = 2;
 	pub const RewardPaymentDelay: u32 = 2;
 	pub const MinSelectedCandidates: u32 = 5;
-	pub const MaxDelegatorsPerCandidate: u32 = 4;
-	pub const MaxDelegationsPerDelegator: u32 = 4;
+	pub const MaxNominatorsPerCollator: u32 = 4;
+	pub const MaxCollatorsPerNominator: u32 = 4;
 	pub const DefaultCollatorCommission: Perbill = Perbill::from_percent(20);
 	pub const DefaultAllychainBondReservePercent: Percent = Percent::from_percent(30);
 	pub const MinCollatorStk: u128 = 10;
-	pub const MinDelegatorStk: u128 = 5;
-	pub const MinDelegation: u128 = 3;
+	pub const MinNominatorStk: u128 = 5;
+	pub const MinNomination: u128 = 3;
 }
 impl Config for Test {
 	type Event = Event;
@@ -121,20 +119,18 @@ impl Config for Test {
 	type MinBlocksPerRound = MinBlocksPerRound;
 	type DefaultBlocksPerRound = DefaultBlocksPerRound;
 	type LeaveCandidatesDelay = LeaveCandidatesDelay;
-	type CandidateBondDelay = CandidateBondDelay;
-	type LeaveDelegatorsDelay = LeaveDelegatorsDelay;
-	type RevokeDelegationDelay = RevokeDelegationDelay;
-	type DelegationBondDelay = DelegationBondDelay;
+	type LeaveNominatorsDelay = LeaveNominatorsDelay;
+	type RevokeNominationDelay = RevokeNominationDelay;
 	type RewardPaymentDelay = RewardPaymentDelay;
 	type MinSelectedCandidates = MinSelectedCandidates;
-	type MaxDelegatorsPerCandidate = MaxDelegatorsPerCandidate;
-	type MaxDelegationsPerDelegator = MaxDelegationsPerDelegator;
+	type MaxNominatorsPerCollator = MaxNominatorsPerCollator;
+	type MaxCollatorsPerNominator = MaxCollatorsPerNominator;
 	type DefaultCollatorCommission = DefaultCollatorCommission;
 	type DefaultAllychainBondReservePercent = DefaultAllychainBondReservePercent;
 	type MinCollatorStk = MinCollatorStk;
-	type MinCandidateStk = MinCollatorStk;
-	type MinDelegatorStk = MinDelegatorStk;
-	type MinDelegation = MinDelegation;
+	type MinCollatorCandidateStk = MinCollatorStk;
+	type MinNominatorStk = MinNominatorStk;
+	type MinNomination = MinNomination;
 	type WeightInfo = ();
 }
 
@@ -143,8 +139,8 @@ pub(crate) struct ExtBuilder {
 	balances: Vec<(AccountId, Balance)>,
 	// [collator, amount]
 	collators: Vec<(AccountId, Balance)>,
-	// [delegator, collator, delegation_amount]
-	delegations: Vec<(AccountId, AccountId, Balance)>,
+	// [nominator, collator, nomination_amount]
+	nominations: Vec<(AccountId, AccountId, Balance)>,
 	// inflation config
 	inflation: InflationInfo<Balance>,
 }
@@ -153,7 +149,7 @@ impl Default for ExtBuilder {
 	fn default() -> ExtBuilder {
 		ExtBuilder {
 			balances: vec![],
-			delegations: vec![],
+			nominations: vec![],
 			collators: vec![],
 			inflation: InflationInfo {
 				expect: Range {
@@ -189,11 +185,11 @@ impl ExtBuilder {
 		self
 	}
 
-	pub(crate) fn with_delegations(
+	pub(crate) fn with_nominations(
 		mut self,
-		delegations: Vec<(AccountId, AccountId, Balance)>,
+		nominations: Vec<(AccountId, AccountId, Balance)>,
 	) -> Self {
-		self.delegations = delegations;
+		self.nominations = nominations;
 		self
 	}
 
@@ -215,7 +211,7 @@ impl ExtBuilder {
 		.expect("Pallet balances storage can be assimilated");
 		stake::GenesisConfig::<Test> {
 			candidates: self.collators,
-			delegations: self.delegations,
+			nominations: self.nominations,
 			inflation_config: self.inflation,
 		}
 		.assimilate_storage(&mut t)
@@ -257,44 +253,6 @@ pub(crate) fn events() -> Vec<pallet::Event<Test>> {
 		.collect::<Vec<_>>()
 }
 
-/// Assert input equal to the last event emitted
-#[macro_export]
-macro_rules! assert_last_event {
-	($event:expr) => {
-		match &$event {
-			e => assert_eq!(*e, crate::mock::last_event()),
-		}
-	};
-}
-
-/// Compares the system events with passed in events
-/// Prints highlighted diff iff assert_eq fails
-#[macro_export]
-macro_rules! assert_eq_events {
-	($events:expr) => {
-		match &$events {
-			e => similar_asserts::assert_eq!(*e, crate::mock::events()),
-		}
-	};
-}
-
-/// Panics if an event is not found in the system log of events
-#[macro_export]
-macro_rules! assert_event_emitted {
-	($event:expr) => {
-		match &$event {
-			e => {
-				assert!(
-					crate::mock::events().iter().find(|x| *x == e).is_some(),
-					"Event {:?} was not found in events: \n {:?}",
-					e,
-					crate::mock::events()
-				);
-			}
-		}
-	};
-}
-
 // Same storage changes as EventHandler::note_author impl
 pub(crate) fn set_author(round: u32, acc: u64, pts: u32) {
 	<Points<Test>>::mutate(round, |p| *p += pts);
@@ -316,7 +274,7 @@ fn geneses() {
 			(9, 4),
 		])
 		.with_candidates(vec![(1, 500), (2, 200)])
-		.with_delegations(vec![(3, 1, 100), (4, 1, 100), (5, 2, 100), (6, 2, 100)])
+		.with_nominations(vec![(3, 1, 100), (4, 1, 100), (5, 2, 100), (6, 2, 100)])
 		.build()
 		.execute_with(|| {
 			assert!(System::events().is_empty());
@@ -327,15 +285,15 @@ fn geneses() {
 			assert_eq!(Balances::reserved_balance(&2), 200);
 			assert_eq!(Balances::free_balance(&2), 100);
 			assert!(Stake::is_candidate(&2));
-			// delegators
+			// nominators
 			for x in 3..7 {
-				assert!(Stake::is_delegator(&x));
+				assert!(Stake::is_nominator(&x));
 				assert_eq!(Balances::free_balance(&x), 0);
 				assert_eq!(Balances::reserved_balance(&x), 100);
 			}
 			// uninvolved
 			for x in 7..10 {
-				assert!(!Stake::is_delegator(&x));
+				assert!(!Stake::is_nominator(&x));
 			}
 			assert_eq!(Balances::free_balance(&7), 100);
 			assert_eq!(Balances::reserved_balance(&7), 0);
@@ -358,7 +316,7 @@ fn geneses() {
 			(10, 100),
 		])
 		.with_candidates(vec![(1, 20), (2, 20), (3, 20), (4, 20), (5, 10)])
-		.with_delegations(vec![
+		.with_nominations(vec![
 			(6, 1, 10),
 			(7, 1, 10),
 			(8, 2, 10),
@@ -377,9 +335,9 @@ fn geneses() {
 			assert!(Stake::is_candidate(&5));
 			assert_eq!(Balances::free_balance(&5), 90);
 			assert_eq!(Balances::reserved_balance(&5), 10);
-			// delegators
+			// nominators
 			for x in 6..11 {
-				assert!(Stake::is_delegator(&x));
+				assert!(Stake::is_nominator(&x));
 				assert_eq!(Balances::free_balance(&x), 90);
 				assert_eq!(Balances::reserved_balance(&x), 10);
 			}

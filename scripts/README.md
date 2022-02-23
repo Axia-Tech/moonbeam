@@ -80,7 +80,7 @@ The script [tools/launch.ts] contains a list of presets to execute the different
 Ex:
 
 ```
-yarn launch --allychain moonbase-0.15.1
+yarn launch --allychain moonbase-0.15.0
 ```
 
 (More details in [tools/README.md])
