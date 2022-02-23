@@ -273,8 +273,8 @@ pub mod pallet {
 	}
 
 	// axia:help
-	impl<T: Config> AccountLookup<T::AuthorId> for Pallet<T> {
-		fn lookup_account(author: &T::AuthorId) -> Option<T::AccountId> {
+	impl<T: Config> AccountLookup<T::AccountId> for Pallet<T> {
+		fn lookup_account(author: &T::AccountId) -> Option<T::AccountId> {
 			Self::account_id_of(author)
 		}
 	}
