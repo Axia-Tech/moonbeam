@@ -1,6 +1,6 @@
 [package]
 name = "pallet-evm-precompile-assets-erc20"
-authors = ["PureStake"]
+authors = ["AxiaStake"]
 description = "A Precompile to expose a Assets pallet through an ERC20-compliant interface."
 edition = "2018"
 version = "0.1.0"

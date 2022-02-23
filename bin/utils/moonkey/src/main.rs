@@ -1,4 +1,4 @@
-// Copyright 2019-2021 PureStake Inc.
+// Copyright 2019-2021 AxiaStake Inc.
 // This file is part of Moonbeam.
 
 // Moonbeam is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@ use cli_opt::account_key::GenerateAccountKey;
 use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
-#[structopt(author = "PureStake")]
+#[structopt(author = "AxiaStake")]
 struct Opt {
 	#[structopt(flatten)]
 	cmd: GenerateAccountKey,

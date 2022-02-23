@@ -1,6 +1,6 @@
 [package]
 name = "pallet-democracy-precompiles"
-authors = ["PureStake"]
+authors = ["AxiaStake"]
 description = "A Precompile to make Axlib's pallet-democracy accessible to pallet-evm"
 edition = "2018"
 version = "0.2.0"

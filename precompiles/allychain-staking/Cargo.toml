@@ -1,6 +1,6 @@
 [package]
 name = "allychain-staking-precompiles"
-authors = ["PureStake"]
+authors = ["AxiaStake"]
 description = "A Precompile to make allychain staking accessible to pallet-evm"
 edition = "2018"
 version = "1.0.0"

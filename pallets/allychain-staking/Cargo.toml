@@ -1,6 +1,6 @@
 [package]
 name = "allychain-staking"
-authors = ["PureStake"]
+authors = ["AxiaStake"]
 description = "allychain staking pallet for collator selection and reward distribution"
 edition = "2018"
 version = "3.0.0"

@@ -1,6 +1,6 @@
 # ![Moonbeam](media/moonbeam-cover.jpg)
 
-![Tests](https://github.com/PureStake/moonbeam/workflows/Release/badge.svg)
+![Tests](https://github.com/AxiaStake/moonbeam/workflows/Release/badge.svg)
 
 **An Ethereum compatible [Allychain](https://axia.network/technology/) built with [Axlib](https://axlib.dev).**
 
@@ -105,11 +105,11 @@ To build Moonbeam, you will need a proper Axlib development environment. If you'
 
 If you need a refresher setting up your Axlib environment, see [Axlib's Getting Started Guide](https://axlib.dev/docs/en/knowledgebase/getting-started/).
 
-Note that cloning master might result in an unstable build. If you want a stable version, check out the [latest releases](https://github.com/PureStake/moonbeam/releases).
+Note that cloning master might result in an unstable build. If you want a stable version, check out the [latest releases](https://github.com/AxiaStake/moonbeam/releases).
 
 ```bash
 # Fetch the code
-git clone https://github.com/PureStake/moonbeam
+git clone https://github.com/AxiaStake/moonbeam
 cd moonbeam
 
 # Build the node (The first build will be long (~30min))
@@ -191,4 +191,4 @@ The following pallets are stored in `pallets/`. They are designed for Moonbeam's
 Moonbeam is open source under the terms of the GPL3. We welcome contributions. Please review our
 [CONTRIBUTIONS.md](CONTRIBUTIONS.md) document for more information.
 
-Example of version bumping PR (runtime and node): https://github.com/PureStake/moonbeam/pull/601/files
+Example of version bumping PR (runtime and node): https://github.com/AxiaStake/moonbeam/pull/601/files

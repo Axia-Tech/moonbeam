@@ -1,6 +1,6 @@
 [package]
 name = "moonbeam-runtime"
-authors = ["PureStake"]
+authors = ["AxiaStake"]
 build = "build.rs"
 description = "Moonbeam Runtime"
 edition = "2018"

@@ -1,6 +1,6 @@
 [package]
 name = "moonbeam"
-authors = ["PureStake"]
+authors = ["AxiaStake"]
 description = "Moonbeam Collator"
 edition = "2018"
 homepage = "https://moonbeam.network"

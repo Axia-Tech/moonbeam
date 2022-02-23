@@ -1,6 +1,6 @@
 [package]
 name = "precompile-utils"
-authors = ["PureStake"]
+authors = ["AxiaStake"]
 description = "Utils to write EVM precompiles."
 edition = "2018"
 version = "0.1.0"

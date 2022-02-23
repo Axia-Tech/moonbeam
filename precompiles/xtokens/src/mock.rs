@@ -1,4 +1,4 @@
-// Copyright 2019-2021 PureStake Inc.
+// Copyright 2019-2021 AxiaStake Inc.
 // This file is part of Moonbeam.
 
 // Moonbeam is free software: you can redistribute it and/or modify
@@ -71,7 +71,7 @@ construct_runtime!(
 	}
 );
 
-// FRom https://github.com/PureStake/moonbeam/pull/518. Merge to common once is merged
+// FRom https://github.com/AxiaStake/moonbeam/pull/518. Merge to common once is merged
 #[derive(
 	Eq,
 	PartialEq,

@@ -1,4 +1,4 @@
-// Copyright 2019-2021 PureStake Inc.
+// Copyright 2019-2021 AxiaStake Inc.
 // This file is part of Moonbeam.
 
 // Moonbeam is free software: you can redistribute it and/or modify
@@ -129,7 +129,7 @@ impl AxlibCli for Cli {
 	}
 
 	fn support_url() -> String {
-		"https://github.com/PureStake/moonbeam/issues/new".into()
+		"https://github.com/AxiaStake/moonbeam/issues/new".into()
 	}
 
 	fn copyright_start_year() -> i32 {
@@ -176,7 +176,7 @@ impl AxlibCli for RelayChainCli {
 	}
 
 	fn support_url() -> String {
-		"https://github.com/PureStake/moonbeam/issues/new".into()
+		"https://github.com/AxiaStake/moonbeam/issues/new".into()
 	}
 
 	fn copyright_start_year() -> i32 {

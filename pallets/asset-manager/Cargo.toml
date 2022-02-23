@@ -1,6 +1,6 @@
 [package]
 name = "pallet-asset-manager"
-authors = ["PureStake"]
+authors = ["AxiaStake"]
 edition = "2018"
 version = "0.1.0"
 

@@ -1,6 +1,6 @@
 [package]
 name = "runtime-common"
-authors = ["PureStake"]
+authors = ["AxiaStake"]
 description = "Common code shared between runtimes"
 edition = "2018"
 homepage = "https://moonbeam.network"

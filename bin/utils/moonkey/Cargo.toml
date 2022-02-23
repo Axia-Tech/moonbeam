@@ -1,6 +1,6 @@
 [package]
 name = "moonkey"
-authors = [ "PureStake" ]
+authors = ["AxiaStake"]
 description = "Moonbeam Key Tool"
 edition = "2018"
 homepage = "https://moonbeam.network"

@@ -28,7 +28,7 @@ jobs:
           echo using "${DOCKER_IMAGE}:${SHA} as base image"
 
           mkdir -p build 
-          wget https://github.com/PureStake/moonbeam/releases/download/$VERSION/moonbeam -O build/moonbeam
+          wget https://github.com/AxiaStake/moonbeam/releases/download/$VERSION/moonbeam -O build/moonbeam
 
           echo building "${DOCKER_IMAGE}:${VERSION}"
           docker build \

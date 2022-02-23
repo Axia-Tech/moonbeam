@@ -1,6 +1,6 @@
 [package]
 name = "xcm-transactor-precompiles"
-authors = ["PureStake"]
+authors = ["AxiaStake"]
 description = "A Precompile to make xcm-transactor accessible to pallet-evm"
 edition = "2018"
 version = "0.1.0"

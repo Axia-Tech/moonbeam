@@ -1,6 +1,6 @@
 [package]
 name = "moonbase-runtime"
-authors = ["PureStake"]
+authors = ["AxiaStake"]
 build = "build.rs"
 description = "Moonbase Runtime"
 edition = "2018"

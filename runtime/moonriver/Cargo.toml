@@ -1,6 +1,6 @@
 [package]
 name = "moonriver-runtime"
-authors = ["PureStake"]
+authors = ["AxiaStake"]
 build = "build.rs"
 description = "Moonriver Runtime"
 edition = "2018"

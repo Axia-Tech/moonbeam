@@ -123,7 +123,7 @@ ${filteredPr.map((pr) => `* ${pr.title} (#${pr.number})`).join("\n")}
 
 ## Dependency changes
 
-Moonbeam: https://github.com/PureStake/moonbeam/compare/${previousTag}...${newTag}
+Moonbeam: https://github.com/AxiaStake/moonbeam/compare/${previousTag}...${newTag}
 ${moduleLinks.map((modules) => `${capitalize(modules.name)}: ${modules.link}`).join("\n")}
 `;
   console.log(template);
