@@ -45,7 +45,7 @@ pub mod pallet {
 	use frame_support::pallet_prelude::*;
 	use frame_support::traits::{Currency, ReservableCurrency};
 	use frame_system::pallet_prelude::*;
-	use nimbus_primitives::AccountLookup;
+	use nimbus_primitives::{AccountLookup, NimbusId};
 
 	pub type BalanceOf<T> = <<T as Config>::DepositCurrency as Currency<
 		<T as frame_system::Config>::AccountId,
@@ -274,7 +274,7 @@ pub mod pallet {
 
 	// axia:help
 	impl<T: Config> AccountLookup<T::AccountId> for Pallet<T> {
-		fn lookup_account(author: &T::AuthorId) -> Option<T::AccountId> {
+		fn lookup_account(author: &NimbusId) -> Option<T::AccountId> {
 			Self::account_id_of(author)
 		}
 	}
