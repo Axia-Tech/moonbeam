@@ -272,11 +272,12 @@ pub mod pallet {
 		}
 	}
 
-	impl<T: Config> AccountLookup<T::AuthorId, T::AccountId> for Pallet<T> {
-		fn lookup_account(author: &T::AuthorId) -> Option<T::AccountId> {
-			Self::account_id_of(author)
-		}
-	}
+	// axia:help
+	// impl<T: Config> AccountLookup<T::AuthorId, T::AccountId> for Pallet<T> {
+	// 	fn lookup_account(author: &T::AuthorId) -> Option<T::AccountId> {
+	// 		Self::account_id_of(author)
+	// 	}
+	// }
 
 	impl<T: Config> Pallet<T> {
 		/// A helper function to lookup the account id associated with the given author id. This is
