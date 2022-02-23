@@ -94,14 +94,14 @@ pub mod pallet {
 	#[pallet::generate_deposit(pub(crate) fn deposit_event)]
 	pub enum Event<T: Config> {
 		/// An AuthorId has been registered and mapped to an AccountId.
-		AuthorRegistered(T::AuthorId, T::AccountId),
+		AuthorRegistered(NimbusId, T::AccountId),
 		/// An AuthorId has been de-registered, and its AccountId mapping removed.
-		AuthorDeRegistered(T::AuthorId),
+		AuthorDeRegistered(NimbusId),
 		/// An AuthorId has been registered, replacing a previous registration and its mapping.
-		AuthorRotated(T::AuthorId, T::AccountId),
+		AuthorRotated(NimbusId, T::AccountId),
 		/// An AuthorId has been forcibly deregistered after not being rotated or cleaned up.
 		/// The reporteing account has been rewarded accordingly.
-		DefunctAuthorBusted(T::AuthorId, T::AccountId),
+		DefunctAuthorBusted(NimbusId, T::AccountId),
 	}
 
 	#[pallet::call]
@@ -111,7 +111,7 @@ pub mod pallet {
 		/// Users who have been (or will soon be) elected active collators in staking,
 		/// should submit this extrinsic to have their blocks accepted and earn rewards.
 		#[pallet::weight(<T as Config>::WeightInfo::add_association())]
-		pub fn add_association(origin: OriginFor<T>, author_id: T::AuthorId) -> DispatchResult {
+		pub fn add_association(origin: OriginFor<T>, author_id: NimbusId) -> DispatchResult {
 			let account_id = ensure_signed(origin)?;
 
 			ensure!(
@@ -133,8 +133,8 @@ pub mod pallet {
 		#[pallet::weight(<T as Config>::WeightInfo::update_association())]
 		pub fn update_association(
 			origin: OriginFor<T>,
-			old_author_id: T::AuthorId,
-			new_author_id: T::AuthorId,
+			old_author_id: NimbusId,
+			new_author_id: NimbusId,
 		) -> DispatchResult {
 			let account_id = ensure_signed(origin)?;
 
@@ -161,7 +161,7 @@ pub mod pallet {
 		#[pallet::weight(<T as Config>::WeightInfo::clear_association())]
 		pub fn clear_association(
 			origin: OriginFor<T>,
-			author_id: T::AuthorId,
+			author_id: NimbusId,
 		) -> DispatchResultWithPostInfo {
 			let account_id = ensure_signed(origin)?;
 
@@ -208,7 +208,7 @@ pub mod pallet {
 		// #[pallet::weight(0)]
 		// pub fn narc_defunct_association(
 		// 	origin: OriginFor<T>,
-		// 	author_id: T::AuthorId,
+		// 	author_id: NimbusId,
 		// ) -> DispatchResult {
 		// 	todo!()
 		// }
@@ -216,7 +216,7 @@ pub mod pallet {
 
 	impl<T: Config> Pallet<T> {
 		pub fn enact_registration(
-			author_id: &T::AuthorId,
+			author_id: &NimbusId,
 			account_id: &T::AccountId,
 		) -> DispatchResult {
 			let deposit = T::DepositAmount::get();
@@ -242,7 +242,7 @@ pub mod pallet {
 	pub type MappingWithDeposit<T: Config> = StorageMap<
 		_,
 		Blake2_128Concat,
-		T::AuthorId,
+		NimbusId,
 		RegistrationInfo<T::AccountId, BalanceOf<T>>,
 		OptionQuery,
 	>;
@@ -251,7 +251,7 @@ pub mod pallet {
 	/// Genesis config for author mapping pallet
 	pub struct GenesisConfig<T: Config> {
 		/// The associations that should exist at chain genesis
-		pub mappings: Vec<(T::AuthorId, T::AccountId)>,
+		pub mappings: Vec<(NimbusId, T::AccountId)>,
 	}
 
 	#[cfg(feature = "std")]
