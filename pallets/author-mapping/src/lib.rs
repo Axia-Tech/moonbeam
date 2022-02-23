@@ -282,7 +282,7 @@ pub mod pallet {
 	impl<T: Config> Pallet<T> {
 		/// A helper function to lookup the account id associated with the given author id. This is
 		/// the primary lookup that this pallet is responsible for.
-		pub fn account_id_of(author_id: &T::AuthorId) -> Option<T::AccountId> {
+		pub fn account_id_of(author_id: &NimbusId) -> Option<T::AccountId> {
 			Self::account_and_deposit_of(author_id).map(|info| info.account)
 		}
 	}
