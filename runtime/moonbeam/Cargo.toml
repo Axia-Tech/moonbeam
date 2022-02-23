@@ -25,14 +25,14 @@ sha3 = { version = "0.8", default-features = false, optional = true }
 
 runtime-common = { path = "../common", default-features = false }
 
-pallet-author-inherent = { git = "https://github.com/axia-tech/nimbus", branch = "master", default-features = false }
+pallet-author-inherent = { git = "https://github.com/axia-tech/nimbus", branch = "94e54bd", default-features = false }
 account = { path = "../../primitives/account/", default-features = false }
 moonbeam-core-primitives = { path = "../../core-primitives", default-features = false }
 pallet-ethereum-chain-id = { path = "../../pallets/ethereum-chain-id", default-features = false }
 allychain-staking = { path = "../../pallets/allychain-staking", default-features = false }
 allychain-staking-precompiles = { path = "../../precompiles/allychain-staking", default-features = false }
-pallet-author-slot-filter = { git = "https://github.com/axia-tech/nimbus", branch = "master", default-features = false }
-nimbus-primitives = { git = "https://github.com/axia-tech/nimbus", branch = "master", default-features = false }
+pallet-author-slot-filter = { git = "https://github.com/axia-tech/nimbus", branch = "94e54bd", default-features = false }
+nimbus-primitives = { git = "https://github.com/axia-tech/nimbus", branch = "94e54bd", default-features = false }
 pallet-migrations = { path = "../../pallets/migrations", default-features = false }
 pallet-author-mapping = { path = "../../pallets/author-mapping", default-features = false }
 pallet-maintenance-mode = { path = "../../pallets/maintenance-mode", default-features = false }

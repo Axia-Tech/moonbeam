@@ -47,7 +47,7 @@ sp-core = { git = "https://github.com/axia-tech/axlib", branch = "dev" }
 sp-externalities = { git = "https://github.com/axia-tech/axlib", branch = "dev" }
 sp-keystore = { git = "https://github.com/axia-tech/axlib", branch = "dev" }
 sp-state-machine = { git = "https://github.com/axia-tech/axlib", branch = "dev" }
-nimbus-primitives = { git = "https://github.com/axia-tech/nimbus", branch = "master" }
+nimbus-primitives = { git = "https://github.com/axia-tech/nimbus", branch = "94e54bd" }
 fp-rpc = { git = "https://github.com/axia-tech/frontier", branch = "master" }
 fp-evm = { git = "https://github.com/axia-tech/frontier", branch = "master" }
 pallet-ethereum = { git = "https://github.com/axia-tech/frontier", branch = "master" }

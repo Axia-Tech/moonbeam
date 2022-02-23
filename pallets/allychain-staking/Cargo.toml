@@ -10,7 +10,7 @@ frame-benchmarking = { git = "https://github.com/axia-tech/axlib", branch = "dev
 frame-support = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
 frame-system = { git = "https://github.com/axia-tech/axlib", branch = "dev", default-features = false }
 log = "0.4"
-nimbus-primitives = { git = "https://github.com/axia-tech/nimbus", branch = "master", default-features = false }
+nimbus-primitives = { git = "https://github.com/axia-tech/nimbus", branch = "94e54bd", default-features = false }
 axia-scale-codec = { version = "2.3.1", git = "https://github.com/axia-tech/axia-scale-codec", branch = "v2.3.1", default-features = false, features = [
 	"derive",
 ] }

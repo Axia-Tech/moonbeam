@@ -114,10 +114,10 @@ cumulus-test-relay-sproof-builder = { git = "https://github.com/axia-tech/cumulu
 cumulus-primitives-allychain-inherent = { git = "https://github.com/axia-tech/cumulus", branch = "master" }
 
 # Nimbus dependencies
-nimbus-consensus = { git = "https://github.com/axia-tech/nimbus", branch = "master" }
-pallet-author-inherent = { git = "https://github.com/axia-tech/nimbus", branch = "master" }
+nimbus-consensus = { git = "https://github.com/axia-tech/nimbus", branch = "94e54bd" }
+pallet-author-inherent = { git = "https://github.com/axia-tech/nimbus", branch = "94e54bd" }
 # TODO we should be able to depend only on the primitives crate once we move the inherent data provider there.
-nimbus-primitives = { git = "https://github.com/axia-tech/nimbus", branch = "master" }
+nimbus-primitives = { git = "https://github.com/axia-tech/nimbus", branch = "94e54bd" }
 
 # AXIA dependencies
 axia-primitives = { git = "https://github.com/axia-tech/axia", branch = "dev" }

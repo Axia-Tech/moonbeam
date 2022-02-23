@@ -7330,7 +7330,7 @@ dependencies = [
 [[package]]
 name = "nimbus-consensus"
 version = "0.1.0"
-source = "git+https://github.com/axia-tech/nimbus?branch=master#886fd7280d08b5c6cf390c2ade773a20ae99622f"
+source = "git+https://github.com/axia-tech/nimbus?branch=94e54bd#aa36235b3330ddcd4b929d81dcdbda4607a4bb81"
 dependencies = [
  "async-trait",
  "axia-client",
@@ -7345,7 +7345,6 @@ dependencies = [
  "parking_lot 0.9.0",
  "sc-client-api",
  "sc-consensus",
- "sc-consensus-manual-seal",
  "sp-api",
  "sp-application-crypto",
  "sp-block-builder",
@@ -7362,7 +7361,7 @@ dependencies = [
 [[package]]
 name = "nimbus-primitives"
 version = "0.1.0"
-source = "git+https://github.com/axia-tech/nimbus?branch=master#886fd7280d08b5c6cf390c2ade773a20ae99622f"
+source = "git+https://github.com/axia-tech/nimbus?branch=94e54bd#aa36235b3330ddcd4b929d81dcdbda4607a4bb81"
 dependencies = [
  "async-trait",
  "axia-scale-codec",
@@ -7751,7 +7750,7 @@ dependencies = [
 [[package]]
 name = "pallet-author-inherent"
 version = "0.1.0"
-source = "git+https://github.com/axia-tech/nimbus?branch=master#886fd7280d08b5c6cf390c2ade773a20ae99622f"
+source = "git+https://github.com/axia-tech/nimbus?branch=94e54bd#aa36235b3330ddcd4b929d81dcdbda4607a4bb81"
 dependencies = [
  "axia-scale-codec",
  "frame-support",
@@ -7789,7 +7788,7 @@ dependencies = [
 [[package]]
 name = "pallet-author-slot-filter"
 version = "0.1.0"
-source = "git+https://github.com/axia-tech/nimbus?branch=master#886fd7280d08b5c6cf390c2ade773a20ae99622f"
+source = "git+https://github.com/axia-tech/nimbus?branch=94e54bd#aa36235b3330ddcd4b929d81dcdbda4607a4bb81"
 dependencies = [
  "axia-scale-codec",
  "frame-support",
